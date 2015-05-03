@@ -71,6 +71,7 @@ if (window.location.pathname == '/') {
 	restoreHiddenBuildings();
 	hideLogo();
 	restoreWellDiv();
+	tabsForMissions();
 	
 	// Faye dazu anweisen, die Funktion fayeEvent aufzurufen
 	faye.subscribe('/private-user'+ user_id, function(data) {        		
@@ -270,4 +271,31 @@ function hideLogo()
 function restoreWellDiv()
 {
 	$('#missions').addClass('well');
+}
+
+// Tabs bei Einsatzliste
+function tabsForMissions()
+{
+	// Bisherige Button ausblenden
+	$('#missions').find('.btn-group').hide();
+	$('#missions').find('h3').hide();
+	
+	// Tabs erstellen
+	$('#mission_list').before('<div id="scriptMissionTab"></div>');
+	
+	$('#scriptMissionTab').append('<ul class="nav nav-tabs"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">Notfälle</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP</a></li><li><a href="#scriptAlliances" data-toggle="tab">Verbandseinsätze</a></li></ul>');
+	
+	$('#scriptMissionTab').append('<div class="tab-content" id="scriptTabContent"></div>');
+	
+	var missionList = $('#mission_list').html();
+	$('#mission_list').remove();
+	$('#scriptTabContent').append('<div class="tab-pane active" id="scriptEmergencies"><ul id="mission_list">'+ missionList +'</ul></div>');
+	
+	var missionListKrankentransporte = $('#mission_list_krankentransporte').html();
+	$('#mission_list_krankentransporte').remove();
+	$('#scriptTabContent').append('<div class="tab-pane" id="scriptTransports"><ul id="mission_list_krankentransporte">'+ missionListKrankentransporte +'</ul></div>');
+	
+	var missionListAlliance = $('#mission_list_alliance').html();
+	$('#mission_list_alliance').remove();
+	$('#scriptTabContent').append('<div class="tab-pane" id="scriptAlliances"><ul id="mission_list_alliance">'+ missionListAlliance +'</ul></div>');
 }
