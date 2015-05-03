@@ -65,9 +65,12 @@ var userSettings;
 if (window.location.pathname == '/') {
 	
 	$('#premium_b').css('background-color', '#000000');
+	$('#premium_a').css('background-color', '#000000');
 	
 	fayeEvent();
 	restoreHiddenBuildings();
+	hideLogo();
+	restoreWellDiv();
 	
 	// Faye dazu anweisen, die Funktion fayeEvent aufzurufen
 	faye.subscribe('/private-user'+ user_id, function(data) {        		
@@ -255,4 +258,16 @@ function restoreHiddenBuildings()
 			$('#vehicle_building_'+ buildingsToHide[i]).hide();
 		}
 	}
+}
+
+// großes Logo ganz oben auf der Seite verstecken
+function hideLogo()
+{
+	$('.logo').parent().hide();
+}
+
+// Div "well" um die Einsatzliste setzen, damit es einheitlich aussieht
+function restoreWellDiv()
+{
+	$('#missions').addClass('well');
 }
