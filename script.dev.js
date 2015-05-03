@@ -68,11 +68,11 @@ if (window.location.pathname == '/') {
 	$('#premium_b').css('background-color', '#000000');
 	$('#premium_a').css('background-color', '#000000');
 	
+	tabsForMissions();
 	fayeEvent();
 	restoreHiddenBuildings();
 	hideLogo();
 	restoreWellDiv();
-	tabsForMissions();
 	showStationSearch();
 	showChatSearch();
 	
@@ -99,6 +99,8 @@ function fayeEvent()
 	showBuildingAmount();
 	showCarAmount();
 	prepareBuildingsToHide();
+	changeTabTitleByCall();
+	showMissionCounterInTab();
 }
 
 // Einstellungen des Users bekommen
@@ -289,7 +291,7 @@ function tabsForMissions()
 	// Tabs erstellen
 	$('#mission_list').before('<div id="scriptMissionTab"></div>');
 	
-	$('#scriptMissionTab').append('<ul class="nav nav-tabs"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">Notfälle</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP</a></li><li><a href="#scriptAlliances" data-toggle="tab">Verbandseinsätze</a></li></ul>');
+	$('#scriptMissionTab').append('<ul class="nav nav-tabs"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">Notfälle (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">Verband (<span id="scriptAllianceCounter"></span>)</a></li></ul>');
 	
 	$('#scriptMissionTab').append('<div class="tab-content" id="scriptTabContent"></div>');
 	
@@ -346,4 +348,22 @@ function showChatSearch()
 			}
         });
 	});
+}
+
+// Falls es Sprechwünsche gibt, soll der Titel des Tabs geändert werden
+function changeTabTitleByCall()
+{
+	if ($('#radio_messages_important').children().length > 0) {
+		document.title = "Sprechwunsch!";
+	} else {
+		document.title = "LEITSTELLENSPIEL.DE - baue deine eigene Leitstelle, in deiner Stadt!";
+	}
+}
+
+// Einsatzzahlen in den Einsatztabs anzeigen
+function showMissionCounterInTab()
+{
+	$('#scriptEmergencyCounter').html($('#missions').find('.btn-group').find('a:eq(0)').html().replace(')', '').split('/')[1]);
+	$('#scriptTransportCounter').html($('#missions').find('.btn-group').find('a:eq(1)').html().replace(')', '').split('/')[1]);
+	$('#scriptAllianceCounter').html($('#missions').find('.btn-group').find('a:eq(2)').html().replace(')', '').split('/')[1]);
 }
