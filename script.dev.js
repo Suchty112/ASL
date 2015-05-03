@@ -63,8 +63,11 @@ var userSettings;
 
 // Fallunterscheidung für die verschiedenen Seiten
 if (window.location.pathname == '/') {
-    //getUserSettings();
+	
+	$('#premium_b').css('background-color', '#000000');
+	
 	fayeEvent();
+	restoreHiddenBuildings();
 	
 	// Faye dazu anweisen, die Funktion fayeEvent aufzurufen
 	faye.subscribe('/private-user'+ user_id, function(data) {        		
@@ -85,6 +88,7 @@ function fayeEvent()
 	showCarSearch();
 	showBuildingAmount();
 	showCarAmount();
+	prepareBuildingsToHide();
 }
 
 // Einstellungen des Users bekommen
@@ -215,4 +219,40 @@ function showCarSearch()
 			}
         });
 	});
+}
+
+// Fahrzeuglisten einklappbar machen
+function prepareBuildingsToHide()
+{
+	$('.building_marker_image').each(function(index, element) {
+        // zunächst onclick-Listener entfernen, damit es nicht nachher doppelt ausgeführt wird
+		$(element).unbind('click');
+		$(element).css('cursor', 'pointer');
+		
+		$(element).bind('click', function(e) {
+			$(element).parent().parent().find('.building_list_vehicles').slideToggle(400, function() {saveHiddenBuildings()});
+		});
+    });
+}
+
+// versteckte Fahrzeuglisten in Cookie speichern (mit jQuery.cookie)
+function saveHiddenBuildings()
+{
+	var hiddenBuildings = "";
+	$('.building_list_vehicles:hidden').each(function(index, element) {
+        hiddenBuildings += $(element).attr('id').split('_')[2] +";";
+    });
+	
+	$.cookie('hiddenBuildings', hiddenBuildings, {expires: 700});
+}
+
+// versteckte, gespeicherte Gebäude beim refresh wieder verstecken
+function restoreHiddenBuildings()
+{
+	if ($.cookie('hiddenBuildings') != undefined) {
+		var buildingsToHide = $.cookie('hiddenBuildings').split(';');
+		for (var i = 0; i < buildingsToHide.length; i++) {
+			$('#vehicle_building_'+ buildingsToHide[i]).hide();
+		}
+	}
 }
