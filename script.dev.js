@@ -63,6 +63,7 @@ var userSettings;
 
 // Fallunterscheidung für die verschiedenen Seiten
 if (window.location.pathname == '/') {
+	// Startseite
 	
 	$('#premium_b').css('background-color', '#000000');
 	$('#premium_a').css('background-color', '#000000');
@@ -73,6 +74,7 @@ if (window.location.pathname == '/') {
 	restoreWellDiv();
 	tabsForMissions();
 	showStationSearch();
+	showChatSearch();
 	
 	// Faye dazu anweisen, die Funktion fayeEvent aufzurufen
 	faye.subscribe('/private-user'+ user_id, function(data) {        		
@@ -83,6 +85,9 @@ if (window.location.pathname == '/') {
 	faye.subscribe('/all', function(data) {
 		fayeEvent();
 	});
+	
+} else if (window.location.pathname.match('missions/')) {
+	// Einsätze
 }
 
 // Funktion wird immer angerufen, wenn ein Event von faye komm (bspw. Statuswechsel, neuer Einsatz etc.)
@@ -317,6 +322,27 @@ function showStationSearch()
 			// nun den Namen prüfen, ob der Suchbegriff vorhanden ist
             if (!$(element).html().toLowerCase().match(searchWord)) {
 				$(element).parent().parent().hide();
+			}
+        });
+	});
+}
+
+// Suchleiste für Verbandschat
+function showChatSearch()
+{
+	$('#alliance_chat').find('h3').before('<input id="scriptChatSearch" class="input-medium search-query" placeholder="Suchen" type="text"><br /><br />');
+	$('#alliance_chat').find('h3').hide();
+	
+	$('#scriptChatSearch').bind('keyup', function(e) {		
+		var searchWord = $('#scriptChatSearch').val().toLowerCase();
+		
+		$('#mission_chat_messages').find('li').each(function(index, element) {
+			// zunächst die Wache wieder sichtbar machen
+			$(element).show();
+			
+			// nun den Namen prüfen, ob der Suchbegriff vorhanden ist
+            if (!$(element).html().toLowerCase().match(searchWord)) {
+				$(element).hide();
 			}
         });
 	});
