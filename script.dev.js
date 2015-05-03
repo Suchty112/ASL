@@ -70,7 +70,9 @@ if (window.location.pathname == '/') {
 	faye.subscribe('/private-user'+ user_id, function(data) {        		
 		fayeEvent();
 	});
-	faye.subscribe('/private-alliance1765', function(data) {
+	// hier unten muss noch was geändert werden, dazu muss Sebastian aber irgendwo die Verbands ID angeben
+	// bis dahin wird der Listener auf dem "All"-Channel sein
+	faye.subscribe('/all', function(data) {
 		fayeEvent();
 	});
 }
@@ -178,11 +180,39 @@ function showCarAmount()
 // Suchleiste für die Gebäudeübersicht erstellen
 function showBuildingSearch()
 {
-	$('#scriptBuildingAmount').append('<div class="input-append"><input id="scriptBuildingSearch" type="text"><span class="add-on"><i class="icon-search"></i></span></div>');
+	$('#scriptBuildingAmount').append('<input id="scriptBuildingSearch" class="input-medium search-query" placeholder="Suchen" type="text"><br /><br />');
+	
+	$('#scriptBuildingSearch').bind('keyup', function(e) {		
+		var searchWord = $('#scriptBuildingSearch').val().toLowerCase();
+		
+		$('#scriptBuildingAmountTable').find('tr').each(function(index, element) {
+			// zunächst die Zeile wieder sichtbar machen
+			$(element).show();
+			
+			// nun die Zelle prüfen, ob der Suchbegriff vorhanden ist
+            if (!$(element).find('td:eq(0)').html().toLowerCase().match(searchWord)) {
+				$(element).hide();
+			}
+        });
+	});
 }
 
 // Suchleiste für die Fahrzeugübersicht erstellen
 function showCarSearch()
 {
-	$('#scriptCarAmount').append('<input type="text" class="input-medium search-query" />');
+	$('#scriptCarAmount').append('<input id="scriptCarSearch" class="input-medium search-query" placeholder="Suchen" type="text"><br /><br />');
+	
+	$('#scriptCarSearch').bind('keyup', function(e) {		
+		var searchWord = $('#scriptCarSearch').val().toLowerCase();
+		
+		$('#scriptCarAmountTable').find('tr').each(function(index, element) {
+			// zunächst die Zeile wieder sichtbar machen
+			$(element).show();
+			
+			// nun die Zelle prüfen, ob der Suchbegriff vorhanden ist
+            if (!$(element).find('td:eq(0)').html().toLowerCase().match(searchWord)) {
+				$(element).hide();
+			}
+        });
+	});
 }
