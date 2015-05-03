@@ -72,6 +72,7 @@ if (window.location.pathname == '/') {
 	hideLogo();
 	restoreWellDiv();
 	tabsForMissions();
+	showStationSearch();
 	
 	// Faye dazu anweisen, die Funktion fayeEvent aufzurufen
 	faye.subscribe('/private-user'+ user_id, function(data) {        		
@@ -298,4 +299,25 @@ function tabsForMissions()
 	var missionListAlliance = $('#mission_list_alliance').html();
 	$('#mission_list_alliance').remove();
 	$('#scriptTabContent').append('<div class="tab-pane" id="scriptAlliances"><ul id="mission_list_alliance">'+ missionListAlliance +'</ul></div>');
+}
+
+// Suchleiste für Wachenliste
+function showStationSearch()
+{
+	$('#buildings').find('h3').before('<input id="scriptStationSearch" class="input-medium search-query" placeholder="Suchen" type="text"><br /><br />');
+	$('#buildings').find('h3').hide();
+	
+	$('#scriptStationSearch').bind('keyup', function(e) {		
+		var searchWord = $('#scriptStationSearch').val().toLowerCase();
+		
+		$('#building_list').find('.map_position_mover').each(function(index, element) {
+			// zunächst die Wache wieder sichtbar machen
+			$(element).parent().parent().show();
+			
+			// nun den Namen prüfen, ob der Suchbegriff vorhanden ist
+            if (!$(element).html().toLowerCase().match(searchWord)) {
+				$(element).parent().parent().hide();
+			}
+        });
+	});
 }
