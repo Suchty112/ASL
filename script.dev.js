@@ -11,6 +11,7 @@ var buildingsById = {
     7: 'Leitstelle',
     8: 'Polizeischule',
     9: 'THW'
+    10: 'THW Schule'
 }
 
 var carsById = {
@@ -53,7 +54,9 @@ var carsById = {
     36: 'MTW',
     37: 'TSF-W',
     38: 'KTW',
-    39: 'GKW'
+    39: 'GKW',
+    40: 'MTW-TZ',
+    41: 'MzKW'
 }
 
 // Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
@@ -121,7 +124,7 @@ function prepareBuildingAndCarCounter()
 function countBuildings()
 {
 	// alle Zählerstände der Gebäude auf 0 setzen
-	for (var i = 0; i <= 10; i++) {
+	for (var i = 0; i <= 11; i++) {
 		buildingAmount[i] = 0;
 	}
 	
@@ -136,7 +139,7 @@ function countBuildings()
 function countCars()
 {
 	// alle Zählerstände der Fahrzeuge auf 0 setzen
-	for (var i = 0; i <= 40; i++) {
+	for (var i = 0; i <= 42; i++) {
 		carAmount[i] = 0;
 	}
 	
@@ -151,7 +154,7 @@ function countCars()
 function countAvailableCars()
 {
 	// alle Zählerstände der Fahrzeuge auf 0 setzen
-	for (var i = 0; i <= 40; i++) {
+	for (var i = 0; i <= 42; i++) {
 		carAvailableAmount[i] = 0;
 	}
 	
