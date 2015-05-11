@@ -92,6 +92,7 @@ if (window.location.pathname == '/') {
 
 } else if (window.location.pathname.match('missions/')) {
 	// Einsätze
+    showCarTypesInsteadOfStation();
 } else if (window.location.pathname.match('buildings/')) {
 
 }
@@ -387,4 +388,21 @@ function countPatients()
     patientsReady = $('#mission_list').find('.patient_progress').find('.bar-success').length;
     $('#scriptPatientsCounter').remove();
     $('#mission_list').before('<small id="scriptPatientsCounter">Pat.: '+ patientsAmount +' insg., '+ patientsTreatment +' in Behandlung, '+ patientsReady +' transpf.</small>');
+}
+
+// Fahrzeugtypen statt Wache bei Klick auf Button
+function showCarTypesInsteadOfStation()
+{
+    // Button neben dem ersten "Alarmieren"-Button erstellen
+    $('.btn-success:eq(4)').after('<button type="button" id="scriptShowCarTypes" class="btn btn-info btn-mini">Fzg.-Typen anzeigen</button>');
+    $('#scriptShowCarTypes').bind('click', function(e)
+        {
+            var eq = $('table').length-1;
+            $('table:eq('+ eq +')').find('[vehicle_type_id]').each(function(index, element)
+                {
+                    $(element).parent().find('td:eq(4)').html(carsById[$(element).attr('vehicle_type_id')]);
+                }
+            )
+        }
+    )
 }
