@@ -10,7 +10,7 @@ var buildingsById = {
     6: 'Polizeiwache',
     7: 'Leitstelle',
     8: 'Polizeischule',
-    9: 'THW'
+    9: 'THW',
     10: 'THW Schule'
 }
 
@@ -61,18 +61,16 @@ var carsById = {
 
 // Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
 var buildingAmount = Array(), carAmount = Array(), carAvailableAmount = Array();
-// Array, um ausgebildete Leute zu zählen
-var educatedPeople = Array();
 // Array, um die Einstellungen des Nutzers zu speichern
 var userSettings;
 
 // Fallunterscheidung für die verschiedenen Seiten
 if (window.location.pathname == '/') {
 	// Startseite
-	
+
 	$('#premium_b').css('background-color', '#000000');
 	$('#premium_a').css('background-color', '#000000');
-	
+
 	tabsForMissions();
 	fayeEvent();
 	restoreHiddenBuildings();
@@ -80,25 +78,22 @@ if (window.location.pathname == '/') {
 	restoreWellDiv();
 	showStationSearch();
 	showChatSearch();
-	
+
 	// Faye dazu anweisen, die Funktion fayeEvent aufzurufen
-	faye.subscribe('/private-user'+ user_id, function(data) {        		
+	faye.subscribe('/private-user'+ user_id, function(data) {
 		fayeEvent();
 	});
 	// hier unten muss noch was geändert werden, dazu muss Sebastian aber irgendwo die Verbands ID angeben
-	// bis dahin wird der Listener auf dem "All"-Channel sein
-	faye.subscribe('/all', function(data) {
-		fayeEvent();
-	});
-	
+    if (alliance_id != undefined) {
+        faye.subscribe('/privatealliance-'+ alliance_id, function(data) {
+    		fayeEvent();
+    	});
+    }
+
 } else if (window.location.pathname.match('missions/')) {
 	// Einsätze
 } else if (window.location.pathname.match('buildings/')) {
-	// Gebäude
-	if ($('#ui-id-1').html() == "Unterricht") {
-		// Schule
-		countPeopleEducation();
-	}
+
 }
 
 // Funktion wird immer angerufen, wenn ein Event von faye komm (bspw. Statuswechsel, neuer Einsatz etc.)
@@ -112,6 +107,7 @@ function fayeEvent()
 	prepareBuildingsToHide();
 	changeTabTitleByCall();
 	showMissionCounterInTab();
+    countPatients();
 }
 
 // Einstellungen des Users bekommen
@@ -135,7 +131,7 @@ function countBuildings()
 	for (var i = 0; i <= 11; i++) {
 		buildingAmount[i] = 0;
 	}
-	
+
 	// für jedes Gebäude, was in der Liste gefunden wird, +1 im Array buildingAmount rechnen
 	$('#building_list').find('.building_list_li').each(function(index, element) {
         buildingAmount[$(element).attr('building_type_id')]++;
@@ -150,7 +146,7 @@ function countCars()
 	for (var i = 0; i <= 42; i++) {
 		carAmount[i] = 0;
 	}
-	
+
 	// für jedes Fahrzeug, was in der Liste gefunden wird, +1 im Array carAmount rechnen
 	$('.building_list_vehicle_element').each(function(index, element) {
         carAmount[$(element).find('a').attr('vehicle_type_id')]++;
@@ -165,7 +161,7 @@ function countAvailableCars()
 	for (var i = 0; i <= 42; i++) {
 		carAvailableAmount[i] = 0;
 	}
-	
+
 	// für jedes Fahrzeug, was in der Liste gefunden wird und Status 1 oder 2 ist, +1 im Array carAvailableAmount rechnen
 	$('.building_list_vehicle_element').each(function(index, element) {
 		if ($(element).find('span').html() == "2") {
@@ -179,9 +175,9 @@ function countAvailableCars()
 function showBuildingAmount()
 {
 	var buildings = countBuildings();
-	
+
 	$('#scriptBuildingAmount').append('<table class="table table-bordered table-condensed table-striped table-hover"><thead><tr><th>Gebäude</th><th>Anzahl</th></tr></thead><tbody id="scriptBuildingAmountTable"></tbody></table>');
-	
+
 	for (var i = 0; i < buildings.length; i++) {
 		if (buildings[i] > 0) {
 			$('#scriptBuildingAmountTable').append('<tr><td>'+ buildingsById[i] +'</td><td>'+ buildings[i] +'</td></tr>');
@@ -194,9 +190,9 @@ function showCarAmount()
 {
 	var cars = countCars();
 	var carsAva = countAvailableCars();
-	
+
 	$('#scriptCarAmount').append('<table class="table table-bordered table-condensed table-striped table-hover"><thead><tr><th>Fahrzeug</th><th>Anzahl</th><th>Verfügbar</th></tr></thead><tbody id="scriptCarAmountTable"></tbody></table>');
-	
+
 	for (var i = 0; i < cars.length; i++) {
 		if (cars[i] > 0) {
 			$('#scriptCarAmountTable').append('<tr><td>'+ carsById[i] +'</td><td>'+ cars[i] +'</td><td>'+ carsAva[i] +'</td></tr>');
@@ -208,14 +204,14 @@ function showCarAmount()
 function showBuildingSearch()
 {
 	$('#scriptBuildingAmount').append('<input id="scriptBuildingSearch" class="input-medium search-query" placeholder="Suchen" type="text"><br /><br />');
-	
-	$('#scriptBuildingSearch').bind('keyup', function(e) {		
+
+	$('#scriptBuildingSearch').bind('keyup', function(e) {
 		var searchWord = $('#scriptBuildingSearch').val().toLowerCase();
-		
+
 		$('#scriptBuildingAmountTable').find('tr').each(function(index, element) {
 			// zunächst die Zeile wieder sichtbar machen
 			$(element).show();
-			
+
 			// nun die Zelle prüfen, ob der Suchbegriff vorhanden ist
             if (!$(element).find('td:eq(0)').html().toLowerCase().match(searchWord)) {
 				$(element).hide();
@@ -228,14 +224,14 @@ function showBuildingSearch()
 function showCarSearch()
 {
 	$('#scriptCarAmount').append('<input id="scriptCarSearch" class="input-medium search-query" placeholder="Suchen" type="text"><br /><br />');
-	
-	$('#scriptCarSearch').bind('keyup', function(e) {		
+
+	$('#scriptCarSearch').bind('keyup', function(e) {
 		var searchWord = $('#scriptCarSearch').val().toLowerCase();
-		
+
 		$('#scriptCarAmountTable').find('tr').each(function(index, element) {
 			// zunächst die Zeile wieder sichtbar machen
 			$(element).show();
-			
+
 			// nun die Zelle prüfen, ob der Suchbegriff vorhanden ist
             if (!$(element).find('td:eq(0)').html().toLowerCase().match(searchWord)) {
 				$(element).hide();
@@ -251,7 +247,7 @@ function prepareBuildingsToHide()
         // zunächst onclick-Listener entfernen, damit es nicht nachher doppelt ausgeführt wird
 		$(element).unbind('click');
 		$(element).css('cursor', 'pointer');
-		
+
 		$(element).bind('click', function(e) {
 			$(element).parent().parent().find('.building_list_vehicles').slideToggle(400, function() {saveHiddenBuildings()});
 		});
@@ -265,7 +261,7 @@ function saveHiddenBuildings()
 	$('.building_list_vehicles:hidden').each(function(index, element) {
         hiddenBuildings += $(element).attr('id').split('_')[2] +";";
     });
-	
+
 	$.cookie('hiddenBuildings', hiddenBuildings, {expires: 700});
 }
 
@@ -298,22 +294,22 @@ function tabsForMissions()
 	// Bisherige Button ausblenden
 	$('#missions').find('.btn-group').hide();
 	$('#missions').find('h3').hide();
-	
+
 	// Tabs erstellen
 	$('#mission_list').before('<div id="scriptMissionTab"></div>');
-	
+
 	$('#scriptMissionTab').append('<ul class="nav nav-tabs"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">Notfälle (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">Verband (<span id="scriptAllianceCounter"></span>)</a></li></ul>');
-	
+
 	$('#scriptMissionTab').append('<div class="tab-content" id="scriptTabContent"></div>');
-	
+
 	var missionList = $('#mission_list').html();
 	$('#mission_list').remove();
 	$('#scriptTabContent').append('<div class="tab-pane active" id="scriptEmergencies"><ul id="mission_list">'+ missionList +'</ul></div>');
-	
+
 	var missionListKrankentransporte = $('#mission_list_krankentransporte').html();
 	$('#mission_list_krankentransporte').remove();
 	$('#scriptTabContent').append('<div class="tab-pane" id="scriptTransports"><ul id="mission_list_krankentransporte">'+ missionListKrankentransporte +'</ul></div>');
-	
+
 	var missionListAlliance = $('#mission_list_alliance').html();
 	$('#mission_list_alliance').remove();
 	$('#scriptTabContent').append('<div class="tab-pane" id="scriptAlliances"><ul id="mission_list_alliance">'+ missionListAlliance +'</ul></div>');
@@ -324,14 +320,14 @@ function showStationSearch()
 {
 	$('#buildings').find('h3').before('<input id="scriptStationSearch" class="input-medium search-query" placeholder="Suchen" type="text"><br /><br />');
 	$('#buildings').find('h3').hide();
-	
-	$('#scriptStationSearch').bind('keyup', function(e) {		
+
+	$('#scriptStationSearch').bind('keyup', function(e) {
 		var searchWord = $('#scriptStationSearch').val().toLowerCase();
-		
+
 		$('#building_list').find('.map_position_mover').each(function(index, element) {
 			// zunächst die Wache wieder sichtbar machen
 			$(element).parent().parent().show();
-			
+
 			// nun den Namen prüfen, ob der Suchbegriff vorhanden ist
             if (!$(element).html().toLowerCase().match(searchWord)) {
 				$(element).parent().parent().hide();
@@ -345,14 +341,14 @@ function showChatSearch()
 {
 	$('#alliance_chat').find('h3').before('<input id="scriptChatSearch" class="input-medium search-query" placeholder="Suchen" type="text"><br /><br />');
 	$('#alliance_chat').find('h3').hide();
-	
-	$('#scriptChatSearch').bind('keyup', function(e) {		
+
+	$('#scriptChatSearch').bind('keyup', function(e) {
 		var searchWord = $('#scriptChatSearch').val().toLowerCase();
-		
+
 		$('#mission_chat_messages').find('li').each(function(index, element) {
 			// zunächst die Wache wieder sichtbar machen
 			$(element).show();
-			
+
 			// nun den Namen prüfen, ob der Suchbegriff vorhanden ist
             if (!$(element).html().toLowerCase().match(searchWord)) {
 				$(element).hide();
@@ -379,8 +375,16 @@ function showMissionCounterInTab()
 	$('#scriptAllianceCounter').html($('#missions').find('.btn-group').find('a:eq(2)').html().replace(')', '').split('/')[1]);
 }
 
-// Leute mit Ausbildungen zählen und neben dem Wachennamen ausgeben
-function countPeopleEducation()
+// Patienten zählen und anzeigen
+function countPatients()
 {
-	
+    var patientsAmount = 0; // Patienten gesamt
+    var patientsTreatment = 0; // Patienten in Behandlung
+    var patientsReady = 0; // Patienten transportbereit
+
+    patientsAmount = $('#mission_list').find('.patient_progress:visible').length;
+    patientsTreatment = $('#mission_list').find('.patient_progress.active:visible').length;
+    patientsReady = $('#mission_list').find('.patient_progress').find('.bar-success').length;
+    $('#scriptPatientsCounter').remove();
+    $('#mission_list').before('<small id="scriptPatientsCounter">Pat.: '+ patientsAmount +' insg., '+ patientsTreatment +' in Behandlung, '+ patientsReady +' transpf.</small>');
 }
