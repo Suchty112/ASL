@@ -61,6 +61,8 @@ var carsById = {
 
 // Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
 var buildingAmount = Array(), carAmount = Array(), carAvailableAmount = Array();
+// Array, um ausgebildete Leute zu zählen
+var educatedPeople = Array();
 // Array, um die Einstellungen des Nutzers zu speichern
 var userSettings;
 
@@ -91,6 +93,12 @@ if (window.location.pathname == '/') {
 	
 } else if (window.location.pathname.match('missions/')) {
 	// Einsätze
+} else if (window.location.pathname.match('buildings/')) {
+	// Gebäude
+	if ($('#ui-id-1').html() == "Unterricht") {
+		// Schule
+		countPeopleEducation();
+	}
 }
 
 // Funktion wird immer angerufen, wenn ein Event von faye komm (bspw. Statuswechsel, neuer Einsatz etc.)
@@ -369,4 +377,10 @@ function showMissionCounterInTab()
 	$('#scriptEmergencyCounter').html($('#missions').find('.btn-group').find('a:eq(0)').html().replace(')', '').split('/')[1]);
 	$('#scriptTransportCounter').html($('#missions').find('.btn-group').find('a:eq(1)').html().replace(')', '').split('/')[1]);
 	$('#scriptAllianceCounter').html($('#missions').find('.btn-group').find('a:eq(2)').html().replace(')', '').split('/')[1]);
+}
+
+// Leute mit Ausbildungen zählen und neben dem Wachennamen ausgeben
+function countPeopleEducation()
+{
+	
 }
