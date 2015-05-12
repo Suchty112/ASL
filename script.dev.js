@@ -56,7 +56,10 @@ var carsById = {
     38: 'KTW',
     39: 'GKW',
     40: 'MTW-TZ',
-    41: 'MzKW'
+    41: 'MzKW',
+    42: 'LKW K9',
+    43: 'BRmG R',
+    44: 'Anh. DLE'
 }
 
 // Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
@@ -108,7 +111,7 @@ function fayeEvent()
 	prepareBuildingsToHide();
 	changeTabTitleByCall();
 	showMissionCounterInTab();
-    countPatients();
+	countPatients();
 }
 
 // Einstellungen des Users bekommen
@@ -144,7 +147,7 @@ function countBuildings()
 function countCars()
 {
 	// alle Zählerstände der Fahrzeuge auf 0 setzen
-	for (var i = 0; i <= 42; i++) {
+	for (var i = 0; i <= 45; i++) {
 		carAmount[i] = 0;
 	}
 
@@ -159,7 +162,7 @@ function countCars()
 function countAvailableCars()
 {
 	// alle Zählerstände der Fahrzeuge auf 0 setzen
-	for (var i = 0; i <= 42; i++) {
+	for (var i = 0; i <= 45; i++) {
 		carAvailableAmount[i] = 0;
 	}
 
