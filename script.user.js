@@ -13,5 +13,5 @@ document.body.appendChild(scriptElement);
 
 var scriptElement = document.createElement( "script" );
 scriptElement.type = "text/javascript";
-scriptElement.src = "http://test/script.dev.js";
+scriptElement.src = "https://raw.githubusercontent.com/eaglefsd/ASL/master/script.dev.js";
 document.body.appendChild(scriptElement);
