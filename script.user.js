@@ -3,7 +3,8 @@
 // @namespace   Leitstellenspiel
 // @include     http://www.leitstellenspiel.de/*
 // @version     dev
-// @author		Eagle
+// @author      Eagle
+// @grant       none
 // ==/UserScript==
 
 var scriptElement = document.createElement( "script" );
