@@ -86,7 +86,6 @@ if (window.location.pathname == '/') {
 
 	// Faye dazu anweisen, die Funktion fayeEvent aufzurufen
 	faye.subscribe('/private-user'+ user_id, function(data) {
-        alert(data);
 		fayeEvent();
 	});
     if (alliance_id != undefined) {
