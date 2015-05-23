@@ -62,6 +62,8 @@ var carsById = {
     44: 'Anh. DLE'
 }
 
+jQuery = $;
+
 // Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
 var buildingAmount = Array(), carAmount = Array(), carAvailableAmount = Array();
 // Array, um die Einstellungen des Nutzers zu speichern
@@ -84,9 +86,9 @@ if (window.location.pathname == '/') {
 
 	// Faye dazu anweisen, die Funktion fayeEvent aufzurufen
 	faye.subscribe('/private-user'+ user_id, function(data) {
+        alert(data);
 		fayeEvent();
 	});
-	// hier unten muss noch was geändert werden, dazu muss Sebastian aber irgendwo die Verbands ID angeben
     if (alliance_id != undefined) {
         faye.subscribe('/privatealliance-'+ alliance_id, function(data) {
     		fayeEvent();
