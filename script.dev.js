@@ -85,11 +85,11 @@ if (window.location.pathname == '/') {
 	showChatSearch();
 
 	// Faye dazu anweisen, die Funktion fayeEvent aufzurufen
-	faye.subscribe('/private-user'+ user_id, function(data) {
+	faye.subscribe('/private-user'+ user_id +'de', function(data) {
 		fayeEvent();
 	});
     if (alliance_id != undefined) {
-        faye.subscribe('/privatealliance-'+ alliance_id, function(data) {
+        faye.subscribe('/privatealliance-'+ alliance_id +'de', function(data) {
     		fayeEvent();
     	});
     }
