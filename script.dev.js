@@ -303,7 +303,7 @@ function tabsForMissions()
 	// Tabs erstellen
 	$('#mission_list').before('<div id="scriptMissionTab"></div>');
 
-	$('#scriptMissionTab').append('<ul class="nav nav-tabs"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">Notfälle (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">Verband (<span id="scriptAllianceCounter"></span>)</a></li></ul>');
+	$('#scriptMissionTab').append('<ul class="nav nav-tabs"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">VE (<span id="scriptAllianceCounter"></span>)</a></li></ul>');
 
 	$('#scriptMissionTab').append('<div class="tab-content" id="scriptTabContent"></div>');
 
@@ -375,9 +375,9 @@ function changeTabTitleByCall()
 // Einsatzzahlen in den Einsatztabs anzeigen
 function showMissionCounterInTab()
 {
-	$('#scriptEmergencyCounter').html($('#missions').find('.btn-group').find('a:eq(0)').html().replace(')', '').split('/')[1]);
-	$('#scriptTransportCounter').html($('#missions').find('.btn-group').find('a:eq(1)').html().replace(')', '').split('/')[1]);
-	$('#scriptAllianceCounter').html($('#missions').find('.btn-group').find('a:eq(2)').html().replace(')', '').split('/')[1]);
+	$('#scriptEmergencyCounter').html($('#missions').find('.btn-group').find('a:eq(0)').html().replace(')', '').split('(')[1]);
+	$('#scriptTransportCounter').html($('#missions').find('.btn-group').find('a:eq(1)').html().replace(')', '').split('(')[1]);
+	$('#scriptAllianceCounter').html($('#missions').find('.btn-group').find('a:eq(2)').html().replace(')', '').split('(')[1]);
 }
 
 // Patienten zählen und anzeigen
@@ -394,19 +394,23 @@ function countPatients()
     $('#mission_list').before('<small id="scriptPatientsCounter">Pat.: '+ patientsAmount +' insg., '+ patientsTreatment +' in Behandlung, '+ patientsReady +' transpf.</small>');
 }
 
-// Fahrzeugtypen statt Wache bei Klick auf Button
+// Fahrzeugtypen statt Name bei Klick auf Button
 function showCarTypesInsteadOfStation()
 {
     // Button neben dem ersten "Alarmieren"-Button erstellen
-    $('.btn-success:eq(4)').after('<button type="button" id="scriptShowCarTypes" class="btn btn-info btn-mini">Fzg.-Typen anzeigen</button>');
+    $('#missionH1').after('<button type="button" id="scriptShowCarTypes" class="btn btn-info btn-mini">Fzg.-Typen anzeigen</button>');
     $('#scriptShowCarTypes').bind('click', function(e)
         {
-            var eq = $('table').length-1;
-            $('table:eq('+ eq +')').find('[vehicle_type_id]').each(function(index, element)
+            $('td[vehicle_type_id]').each(function(ind, tdEl)
                 {
-                    $(element).parent().find('td:eq(4)').html(carsById[$(element).attr('vehicle_type_id')]);
+                    $(tdEl).parent().find('td:eq(2)').html(carsById[$(tdEl).attr('vehicle_type_id')]);
                 }
-            )
+            );
+            $('a[vehicle_type_id]').each(function(ind, aEl)
+                {
+                    $(aEl).html(carsById[$(aEl).attr('vehicle_type_id')]);
+                }
+            );
         }
     )
 }
