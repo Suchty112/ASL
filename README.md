@@ -29,6 +29,10 @@ ASL ist ein Userscript für Leitstellenspiel.de, welches einige Funktionen einf�
 Du kannst mir gerne helfen, dieses Projekt weiter zu entwickeln. Dazu eröffnest du bitte einen Pull Request hier bei GitHub.
 Achte bitte darauf, Kommentare zu verwenden und vernünftige Beschreibungen bei den Commits anzugeben.
 
+### Haftungsausschluss
+Die Nutzung des Scripts geschieht auf eigene Gefahr. Ich hafte nicht für eventuell auftretende Schäden oder Ähnliches, die durch die Nutzung dieses Scripts entstanden sind.
+Die SHPlay GmbH ist in keinster Weise für den Inhalt des Scripts verantwortlich. Das Script ist losgelöst von SHPlay und Leitstellenspiel.de
+
 [diesen Link]:https://github.com/eaglefsd/ASL/raw/master/script.user.js
 [internet_explorer.zip]:https://github.com/eaglefsd/ASL/raw/master/internet_explorer.zip
 [Greasemonkey]:https://addons.mozilla.org/de/firefox/addon/greasemonkey/
