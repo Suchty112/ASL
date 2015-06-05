@@ -69,13 +69,17 @@ var buildingAmount = Array(), carAmount = Array(), carAvailableAmount = Array();
 // Array, um die Einstellungen des Nutzers zu speichern
 var userSettings;
 
+$('#premium_b').css('background-color', '#000000');
+$('#premium_a').css('background-color', '#000000');
+$('.aao').bind('click', function(e)
+    {
+        $(this).css('border', '2px solid black');
+    }
+)
+
 // Fallunterscheidung für die verschiedenen Seiten
 if (window.location.pathname == '/') {
 	// Startseite
-
-	$('#premium_b').css('background-color', '#000000');
-	$('#premium_a').css('background-color', '#000000');
-
 	tabsForMissions();
 	fayeEvent();
 	restoreHiddenBuildings();
