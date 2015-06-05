@@ -84,6 +84,7 @@ if (window.location.pathname == '/') {
 	fayeEvent();
 	restoreHiddenBuildings();
 	hideLogo();
+    changeTabTitleByCall();
 	restoreWellDiv();
 	showStationSearch();
 	showChatSearch();
