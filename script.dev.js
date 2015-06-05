@@ -306,9 +306,14 @@ function tabsForMissions()
 	$('#missions').find('h3').hide();
 
 	// Tabs erstellen
-	$('#mission_list').before('<div id="scriptMissionTab"></div>');
+	$('#mission_list').before('<div id="scriptMissionTab"><button type="button" id="scriptShowMenu" class="btn btn-mini" style="cursor:pointer">Menü</button></div><br />');
+    $('#scriptShowMenu').bind('click', function(e)
+        {
+            $('#scriptMissionMenu').slideToggle();
+        }
+    );
 
-	$('#scriptMissionTab').append('<ul class="nav nav-tabs"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">VE (<span id="scriptAllianceCounter"></span>)</a></li></ul>');
+	$('#scriptMissionTab').append('<div id="scriptMissionMenu" style="display:none"><br /><ul class="nav nav-tabs"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">VE (<span id="scriptAllianceCounter"></span>)</a></li></ul><br /></div>');
 
 	$('#scriptMissionTab').append('<div class="tab-content" id="scriptTabContent"></div>');
 
@@ -396,7 +401,7 @@ function countPatients()
     patientsTreatment = $('#mission_list').find('.patient_progress.active:visible').length;
     patientsReady = $('#mission_list').find('.patient_progress').find('.bar-success').length;
     $('#scriptPatientsCounter').remove();
-    $('#mission_list').before('<small id="scriptPatientsCounter">Pat.: '+ patientsAmount +' insg., '+ patientsTreatment +' in Behandlung, '+ patientsReady +' transpf.</small>');
+    $('#scriptMissionMenu').append('<small id="scriptPatientsCounter">Pat.: '+ patientsAmount +' insg., '+ patientsTreatment +' in Behandlung, '+ patientsReady +' transpf.</small>');
 }
 
 // Fahrzeugtypen statt Name bei Klick auf Button
