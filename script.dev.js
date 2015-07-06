@@ -428,7 +428,16 @@ function showCarTypesInsteadOfStation()
 
 function useEasyHotkeys() {
     $(document).on('keydown', function(e) {
-        var hotkey = String.fromCharCode(e.which);
-        $('[accesskey='+ hotkey +']').click();
+        var keynum;
+        if(window.event) {
+            keynum = e.keyCode;
+        } else {
+            keynum = e.which
+        }
+
+        var hotkey = String.fromCharCode(keynum).trim();
+        if(hotkey != " " && hotkey != "") {
+            $('[accesskey='+ hotkey +']').click();
+        }
     });
 }
