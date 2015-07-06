@@ -102,6 +102,7 @@ if (window.location.pathname == '/') {
 } else if (window.location.pathname.match('missions/')) {
 	// Einsätze
     showCarTypesInsteadOfStation();
+    useEasyHotkeys();
 } else if (window.location.pathname.match('buildings/')) {
 
 }
@@ -423,4 +424,11 @@ function showCarTypesInsteadOfStation()
             );
         }
     )
+}
+
+function useEasyHotkeys() {
+    $(document).on('keydown', function(e) {
+        var hotkey = String.fromCharCode(e.which);
+        $('[accesskey='+ hotkey +']').click();
+    });
 }
