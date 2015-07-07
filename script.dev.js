@@ -436,6 +436,10 @@ function useEasyHotkeys() {
         }
 
         var hotkey = String.fromCharCode(keynum).trim();
+
+        if($('#mission_reply_content').is(':focus')) {
+            return;
+        }
         if(hotkey != " " && hotkey != "") {
             $('[accesskey='+ hotkey +']').click();
         }
