@@ -59,7 +59,8 @@ var carsById = {
     41: 'MzKW',
     42: 'LKW K9',
     43: 'BRmG R',
-    44: 'Anh. DLE'
+    44: 'Anh. DLE',
+    45: 'MLW 5'
 }
 
 jQuery = $;
