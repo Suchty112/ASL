@@ -9,7 +9,7 @@
 
 var scriptElement = document.createElement( "script" );
 scriptElement.type = "text/javascript";
-scriptElement.src = "http://lstspiel.kilu.de/js/jqueryCookie.js";
+scriptElement.src = "https://rawgit.com/carhartl/jquery-cookie/master/src/jquery.cookie.js";
 document.body.appendChild(scriptElement);
 
 var scriptElement = document.createElement( "script" );
