@@ -60,7 +60,9 @@ var carsById = {
     42: 'LKW K9',
     43: 'BRmG R',
     44: 'Anh. DLE',
-    45: 'MLW 5'
+    45: 'MLW 5',
+    46: 'WLF',
+    47: 'AB-Rüst'
 }
 
 jQuery = $;
