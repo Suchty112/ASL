@@ -62,7 +62,9 @@ var carsById = {
     44: 'Anh. DLE',
     45: 'MLW 5',
     46: 'WLF',
-    47: 'AB-Rüst'
+    47: 'AB-Rüst',
+    48: 'AB-Atemschutz',
+    49: 'AB-Öl'
 }
 
 jQuery = $;
