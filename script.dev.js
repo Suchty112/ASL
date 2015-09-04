@@ -157,7 +157,7 @@ function countBuildings()
 function countCars()
 {
 	// alle Zählerstände der Fahrzeuge auf 0 setzen
-	for (var i = 0; i <= 49; i++) {
+	for (var i = 0; i <= 50; i++) {
 		carAmount[i] = 0;
 	}
 
@@ -172,7 +172,7 @@ function countCars()
 function countAvailableCars()
 {
 	// alle Zählerstände der Fahrzeuge auf 0 setzen
-	for (var i = 0; i <= 45; i++) {
+	for (var i = 0; i <= 50; i++) {
 		carAvailableAmount[i] = 0;
 	}
 
