@@ -11,7 +11,8 @@ var buildingsById = {
     7: 'Leitstelle',
     8: 'Polizeischule',
     9: 'THW',
-    10: 'THW Schule'
+    10: 'THW Schule',
+    11: 'Bereitschaftspolizei'
 }
 
 var carsById = {
@@ -64,7 +65,9 @@ var carsById = {
     46: 'WLF',
     47: 'AB-Rüst',
     48: 'AB-Atemschutz',
-    49: 'AB-Öl'
+    49: 'AB-Öl',
+    50: 'GruKw',
+    51: 'FüKw'
 }
 
 jQuery = $;
@@ -140,7 +143,7 @@ function prepareBuildingAndCarCounter()
 function countBuildings()
 {
 	// alle Zählerstände der Gebäude auf 0 setzen
-	for (var i = 0; i <= 11; i++) {
+	for (var i = 0; i <= 12; i++) {
 		buildingAmount[i] = 0;
 	}
 
@@ -155,7 +158,7 @@ function countBuildings()
 function countCars()
 {
 	// alle Zählerstände der Fahrzeuge auf 0 setzen
-	for (var i = 0; i <= 50; i++) {
+	for (var i = 0; i <= 52; i++) {
 		carAmount[i] = 0;
 	}
 
@@ -170,7 +173,7 @@ function countCars()
 function countAvailableCars()
 {
 	// alle Zählerstände der Fahrzeuge auf 0 setzen
-	for (var i = 0; i <= 50; i++) {
+	for (var i = 0; i <= 52; i++) {
 		carAvailableAmount[i] = 0;
 	}
 
