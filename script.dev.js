@@ -67,7 +67,8 @@ var carsById = {
     48: 'AB-Atemschutz',
     49: 'AB-Öl',
     50: 'GruKw',
-    51: 'FüKw'
+    51: 'FüKw',
+    52: 'GefKw'
 }
 
 jQuery = $;
@@ -158,7 +159,7 @@ function countBuildings()
 function countCars()
 {
 	// alle Zählerstände der Fahrzeuge auf 0 setzen
-	for (var i = 0; i <= 52; i++) {
+	for (var i = 0; i <= 53; i++) {
 		carAmount[i] = 0;
 	}
 
@@ -173,7 +174,7 @@ function countCars()
 function countAvailableCars()
 {
 	// alle Zählerstände der Fahrzeuge auf 0 setzen
-	for (var i = 0; i <= 52; i++) {
+	for (var i = 0; i <= 53; i++) {
 		carAvailableAmount[i] = 0;
 	}
 
