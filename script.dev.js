@@ -89,7 +89,8 @@ if (window.location.pathname == '/') {
 	// Startseite
 	tabsForMissions();
 	fayeEvent();
-	hideLogo();
+//	hideLogo();
+	hideLogohalloween();
     changeTabTitleByCall();
 	restoreWellDiv();
 	showStationSearch();
@@ -256,10 +257,17 @@ function showCarSearch()
 	});
 }
 
+/*
 // großes Logo ganz oben auf der Seite verstecken
 function hideLogo()
 {
 	$('.logo').parent().hide();
+}
+*/
+// großes Logo zu halloween ganz oben auf der Seite verstecken
+function hideLogohalloween()
+{
+	$('.logoHalloween').parent().hide();
 }
 
 // Div "well" um die Einsatzliste setzen, damit es einheitlich aussieht
