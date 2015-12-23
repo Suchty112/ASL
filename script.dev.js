@@ -13,7 +13,7 @@ var buildingsById = {
     9: 'THW',
     10: 'THW Schule',
     11: 'Bereitschaftspolizei'
-};
+}
 
 var carsById = {
     0: 'LF 20',
@@ -69,7 +69,7 @@ var carsById = {
     50: 'GruKw',
     51: 'FüKw',
     52: 'GefKw'
-};
+}
 
 jQuery = $;
 
@@ -105,7 +105,6 @@ if (window.location.pathname == '/') {
 } else if (window.location.pathname.match('missions/')) {
     // Einsätze
     showCarTypesInsteadOfStation();
-    useEasyHotkeys();
 } else if (window.location.pathname.match('buildings/')) {
 
 }
@@ -354,25 +353,4 @@ function showCarTypesInsteadOfStation() {
             );
         }
     )
-}
-
-// Hotkeys ohne Tastenkombination
-function useEasyHotkeys() {
-    $(document).on('keydown', function(e) {
-        var keynum;
-        if(window.event) {
-            keynum = e.keyCode;
-        } else {
-            keynum = e.which
-        }
-
-        var hotkey = String.fromCharCode(keynum).trim();
-
-        if($('#mission_reply_content').is(':focus')) {
-            return;
-        }
-        if(hotkey != " " && hotkey != "") {
-            $('[accesskey='+ hotkey +']').click();
-        }
-    });
 }
