@@ -74,15 +74,12 @@ var carsById = {
 jQuery = $;
 
 // Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
-var buildingAmount = Array(), carAmount = Array(), carAvailableAmount = Array();
-// Array, um die Einstellungen des Nutzers zu speichern
-var userSettings;
+var buildingAmount = [], carAmount = [], carAvailableAmount = [];
 
-$('.aao').bind('click', function (e) {
+$('.aao').bind('click', function () {
         $(this).css('border', '2px solid black');
     }
-)
-
+);
 // Fallunterscheidung für die verschiedenen Seiten
 if (window.location.pathname == '/') {
     // Startseite
@@ -93,21 +90,19 @@ if (window.location.pathname == '/') {
     showChatSearch();
 
     // Faye dazu anweisen, die Funktion fayeEvent aufzurufen
-    faye.subscribe('/private-user' + user_id + 'de', function (data) {
+    faye.subscribe('/private-user' + user_id + 'de', function () {
         fayeEvent();
     });
     if (alliance_id != undefined) {
-        faye.subscribe('/private-alliance-' + alliance_id + 'de', function (data) {
+        faye.subscribe('/private-alliance-' + alliance_id + 'de', function () {
             fayeEvent();
         });
     }
 
-} else if (window.location.pathname.match('missions/')) {
+} else if (window.location.pathname.match(/missions\//)) {
     // Einsätze
     showCarTypesInsteadOfStation();
     useEasyHotkeys()
-} else if (window.location.pathname.match('buildings/')) {
-
 }
 
 // Funktion wird immer angerufen, wenn ein Event von faye komm (bspw. Statuswechsel, neuer Einsatz etc.)
@@ -122,16 +117,15 @@ function fayeEvent() {
     countPatients();
 }
 
-// Einstellungen des Users bekommen
-function getUserSettings() {
-
-}
-
 // zwei Divs für die Fahrzeuge und Wachen erstellen
 function prepareBuildingAndCarCounter() {
-    $('#scriptAmount').remove();
-    $('.container-fluid:eq(0) > .row:eq(2)').after('<div class="row" id="scriptAmount"></div>');
-    $('#scriptAmount')
+    var scriptAmountDiv = $('#scriptAmount');
+    if (scriptAmountDiv.length == 0) {
+        $('.container-fluid:eq(0) > .row:eq(2)').after('<div class="row" id="scriptAmount"></div>');
+        scriptAmountDiv = $('#scriptAmount');
+    }
+    scriptAmountDiv
+        .empty()
         .append('<div class="col-sm-4 overview_outer"><div class="sidebar-nav"><div class="panel panel-default"><div class="panel-heading">Wachen und Gebäude</div><div class="panel-body" id="scriptBuildingAmount"></div></div></div></div>')
         .append('<div class="col-sm-4 overview_outer"><div class="sidebar-nav"><div class="panel panel-default"><div class="panel-heading">Fahrzeuge</div><div class="panel-body" id="scriptCarAmount"></div></div></div></div>');
 }
@@ -211,8 +205,8 @@ function showCarAmount() {
 function showBuildingSearch() {
     $('#scriptBuildingAmount').append('<input id="scriptBuildingSearch" class="form-control" placeholder="Suchen" type="text"><br /><br />');
 
-    $('#scriptBuildingSearch').bind('keyup', function (e) {
-        var searchWord = $('#scriptBuildingSearch').val().toLowerCase();
+    $('#scriptBuildingSearch').bind('keyup', function () {
+        var searchWord = new RegExp($('#scriptBuildingSearch').val().toLowerCase());
 
         $('#scriptBuildingAmountTable').find('tr').each(function (index, element) {
             // zunächst die Zeile wieder sichtbar machen
@@ -230,8 +224,8 @@ function showBuildingSearch() {
 function showCarSearch() {
     $('#scriptCarAmount').append('<input id="scriptCarSearch" class="form-control" placeholder="Suchen" type="text"><br /><br />');
 
-    $('#scriptCarSearch').bind('keyup', function (e) {
-        var searchWord = $('#scriptCarSearch').val().toLowerCase();
+    $('#scriptCarSearch').bind('keyup', function () {
+        var searchWord = new RegExp($('#scriptCarSearch').val().toLowerCase());
 
         $('#scriptCarAmountTable').find('tr').each(function (index, element) {
             // zunächst die Zeile wieder sichtbar machen
@@ -251,31 +245,37 @@ function tabsForMissions() {
     $('#missions').find('.btn-group').hide();
 
     // Tabs erstellen
-    $('#mission_list').before('<div id="scriptMissionTab"></div>');
+    var missionListDiv = $('#mission_list');
+    missionListDiv.before('<div id="scriptMissionTab"></div>');
+    var scriptMissionTab = $('#scriptMissionTab');
 
-    $('#scriptMissionTab').append('<div id="scriptMissionMenu"><br /><ul class="nav nav-tabs"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">VE (<span id="scriptAllianceCounter"></span>)</a></li></ul><br /></div>');
+    scriptMissionTab
+        .append('<div id="scriptMissionMenu"><br /><ul class="nav nav-tabs"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">VE (<span id="scriptAllianceCounter"></span>)</a></li></ul><br /></div>')
+        .append('<div class="tab-content" id="scriptTabContent"></div>');
 
-    $('#scriptMissionTab').append('<div class="tab-content" id="scriptTabContent"></div>');
+    var missionList = missionListDiv.html();
+    missionListDiv.remove();
 
-    var missionList = $('#mission_list').html();
-    $('#mission_list').remove();
-    $('#scriptTabContent').append('<div class="tab-pane active" id="scriptEmergencies"><ul id="mission_list">' + missionList + '</ul></div>');
+    var scriptTabContent = $('#scriptTabContent');
+    scriptTabContent.append('<div class="tab-pane active" id="scriptEmergencies"><ul id="mission_list">' + missionList + '</ul></div>');
 
-    var missionListKrankentransporte = $('#mission_list_krankentransporte').html();
-    $('#mission_list_krankentransporte').remove();
-    $('#scriptTabContent').append('<div class="tab-pane" id="scriptTransports"><ul id="mission_list_krankentransporte">' + missionListKrankentransporte + '</ul></div>');
+    var missionListKrankentransporteDiv = $('#mission_list_krankentransporte');
+    var missionListKrankentransporte = missionListKrankentransporteDiv.html();
+    missionListKrankentransporteDiv.remove();
+    scriptTabContent.append('<div class="tab-pane" id="scriptTransports"><ul id="mission_list_krankentransporte">' + missionListKrankentransporte + '</ul></div>');
 
-    var missionListAlliance = $('#mission_list_alliance').html();
-    $('#mission_list_alliance').remove();
-    $('#scriptTabContent').append('<div class="tab-pane" id="scriptAlliances"><ul id="mission_list_alliance">' + missionListAlliance + '</ul></div>');
+    var missionListAllianceDiv = $('#mission_list_alliance');
+    var missionListAlliance = missionListAllianceDiv.html();
+    missionListAllianceDiv.remove();
+    scriptTabContent.append('<div class="tab-pane" id="scriptAlliances"><ul id="mission_list_alliance">' + missionListAlliance + '</ul></div>');
 }
 
 // Suchleiste für Wachenliste
 function showStationSearch() {
-    $('#buildings').find('.panel-heading').append('<input id="scriptStationSearch" class="form-control" placeholder="Suchen" type="text">')
+    $('#buildings').find('.panel-heading').append('<input id="scriptStationSearch" class="form-control" placeholder="Suchen" type="text">');
 
-    $('#scriptStationSearch').bind('keyup', function (e) {
-        var searchWord = $('#scriptStationSearch').val().toLowerCase();
+    $('#scriptStationSearch').bind('keyup', function () {
+        var searchWord = new RegExp($('#scriptStationSearch').val().toLowerCase());
 
         $('#building_list').find('.map_position_mover').each(function (index, element) {
             // zunächst die Wache wieder sichtbar machen
@@ -293,8 +293,8 @@ function showStationSearch() {
 function showChatSearch() {
     $('#chat_outer').find('.panel-heading').append('<input id="scriptChatSearch" class="form-control" placeholder="Suchen" type="text">');
 
-    $('#scriptChatSearch').bind('keyup', function (e) {
-        var searchWord = $('#scriptChatSearch').val().toLowerCase();
+    $('#scriptChatSearch').bind('keyup', function () {
+        var searchWord = new RegExp($('#scriptChatSearch').val().toLowerCase());
 
         $('#mission_chat_messages').find('li').each(function (index, element) {
             // zunächst die Wache wieder sichtbar machen
@@ -319,20 +319,19 @@ function changeTabTitleByCall() {
 
 // Einsatzzahlen in den Einsatztabs anzeigen
 function showMissionCounterInTab() {
-    $('#scriptEmergencyCounter').html($('#missions').find('.btn-group').find('a:eq(0)').html().replace(')', '').split('(')[1]);
-    $('#scriptTransportCounter').html($('#missions').find('.btn-group').find('a:eq(1)').html().replace(')', '').split('(')[1]);
-    $('#scriptAllianceCounter').html($('#missions').find('.btn-group').find('a:eq(2)').html().replace(')', '').split('(')[1]);
+    var missions = $('#missions');
+    $('#scriptEmergencyCounter').html(missions.find('.btn-group').find('a:eq(0)').html().replace(')', '').split('(')[1]);
+    $('#scriptTransportCounter').html(missions.find('.btn-group').find('a:eq(1)').html().replace(')', '').split('(')[1]);
+    $('#scriptAllianceCounter').html(missions.find('.btn-group').find('a:eq(2)').html().replace(')', '').split('(')[1]);
 }
 
 // Patienten zählen und anzeigen
 function countPatients() {
-    var patientsAmount = 0; // Patienten gesamt
-    var patientsTreatment = 0; // Patienten in Behandlung
-    var patientsReady = 0; // Patienten transportbereit
 
-    patientsAmount = $('#mission_list').find('.patient_progress:visible').length;
-    patientsTreatment = $('#mission_list').find('.patient_progress.active:visible').length;
-    patientsReady = $('#mission_list').find('.patient_progress').find('.bar-success').length;
+    var missionList = $('#mission_list');
+    var patientsAmount = missionList.find('.patient_progress:visible').length; // Patientenanzahl
+    var patientsTreatment = missionList.find('.patient_progress.active:visible').length; // Patienten in Behandlung
+    var patientsReady = missionList.find('.patient_progress').find('.bar-success').length; // Patienten transportbereit
     $('#scriptPatientsCounter').remove();
     $('#scriptMissionMenu').append('<small id="scriptPatientsCounter">Pat.: ' + patientsAmount + ' insg., ' + patientsTreatment + ' in Behandlung, ' + patientsReady + ' transpf.</small>');
 }
@@ -341,7 +340,7 @@ function countPatients() {
 function showCarTypesInsteadOfStation() {
     // Button neben dem ersten "Alarmieren"-Button erstellen
     $('#missionH1').after('<button type="button" id="scriptShowCarTypes" class="btn btn-info btn-mini">Fzg.-Typen anzeigen</button>');
-    $('#scriptShowCarTypes').bind('click', function (e) {
+    $('#scriptShowCarTypes').bind('click', function () {
             $('td[vehicle_type_id]').each(function (ind, tdEl) {
                     $(tdEl).parent().find('td:eq(2)').html(carsById[$(tdEl).attr('vehicle_type_id')]);
                 }
