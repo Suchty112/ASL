@@ -80,6 +80,10 @@ $('.aao').bind('click', function () {
         $(this).css('border', '2px solid black');
     }
 );
+$('.vehicle_group').bind('click', function () {
+        $(this).css('border', '2px solid black');
+    }
+);
 // Fallunterscheidung für die verschiedenen Seiten
 if (window.location.pathname == '/') {
     // Startseite
