@@ -218,7 +218,7 @@ function tabsForMissions() {
     var missionDiv = $('#missions'),
         missionListDiv = $('#mission_list'),
         scriptMissionTab = $('#scriptMissionTab'),
-        missionList = missionListDiv.html(),
+        missionList = '',
         scriptTabContent = $('#scriptTabContent'),
         missionListKrankentransporteDiv = $('#mission_list_krankentransporte'),
         missionListKrankentransporte = missionListKrankentransporteDiv.html(),
@@ -236,6 +236,7 @@ function tabsForMissions() {
     missionDiv.find('.panel-heading:eq(0)').append('<div id="scriptMissionMenu"><ul class="nav nav-pills small" style="padding-left:0"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">VE (<span id="scriptAllianceCounter"></span>)</a></li></ul></div>');
     scriptMissionTab.append('<div class="tab-content" id="scriptTabContent"></div>');
 
+    //missionList = missionListDiv.html();
     missionListDiv.remove();
 
     scriptTabContent.append('<div class="tab-pane active" id="scriptEmergencies"><div id="mission_list" style="padding-left:0">' + missionList + '</div></div>');
