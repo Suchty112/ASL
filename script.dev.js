@@ -215,26 +215,28 @@ function showCarSearch() {
 // Tabs bei Einsatzliste
 function tabsForMissions() {
     // Bisherige Button ausblenden
-    var missionDiv = $('#missions'),
-        missionListDiv = $('#mission_list'),
+    var missionDiv,
+        missionListDiv,
         scriptMissionTab,
         missionList,
         scriptTabContent,
-        missionListKrankentransporteDiv = $('#mission_list_krankentransporte'),
-        missionListKrankentransporte = missionListKrankentransporteDiv.html(),
-        missionListAllianceDiv = $('#mission_list_alliance'),
-        missionListAlliance = missionListAllianceDiv.html();
+        missionListKrankentransporteDiv,
+        missionListKrankentransporte,
+        missionListAllianceDiv,
+        missionListAlliance;
 
+    missionDiv = $('#missions');
     missionDiv.find('.btn-group').hide();
 
     // Größe anpassen
     $('#missions-panel-body').css('height', '450px');
 
     // Tabs erstellen
+    missionListDiv = $('#mission_list');
     missionListDiv.before('<div id="scriptMissionTab"></div>');
+    scriptMissionTab = $('#scriptMissionTab');
 
     missionDiv.find('.panel-heading:eq(0)').append('<div id="scriptMissionMenu"><ul class="nav nav-pills small" style="padding-left:0"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">VE (<span id="scriptAllianceCounter"></span>)</a></li></ul></div>');
-    scriptMissionTab = $('#scriptMissionTab');
     scriptMissionTab.append('<div class="tab-content" id="scriptTabContent"></div>');
 
     missionList = missionListDiv.html();
@@ -243,10 +245,33 @@ function tabsForMissions() {
     scriptTabContent = $('#scriptTabContent');
     scriptTabContent.append('<div class="tab-pane active" id="scriptEmergencies"><div id="mission_list" style="padding-left:0">' + missionList + '</div></div>');
 
+    missionListKrankentransporteDiv = $('#mission_list_krankentransporte');
+    missionListKrankentransporte = missionListKrankentransporteDiv.html()
     missionListKrankentransporteDiv.remove();
     scriptTabContent.append('<div class="tab-pane" id="scriptTransports"><div id="mission_list_krankentransporte" style="padding-left:0">' + missionListKrankentransporte + '</div></div>');
+
+    missionListAllianceDiv = $('#mission_list_alliance');
+    missionListAlliance = missionListAllianceDiv.html();
     missionListAllianceDiv.remove();
     scriptTabContent.append('<div class="tab-pane" id="scriptAlliances"><div id="mission_list_alliance" style="padding-left:0">' + missionListAlliance + '</div></div>');
+
+    /*
+     var missionList = missionListDiv.html();
+     missionListDiv.remove();
+
+     var scriptTabContent = $('#scriptTabContent');
+     scriptTabContent.append('<div class="tab-pane active" id="scriptEmergencies"><div id="mission_list" style="padding-left:0">' + missionList + '</div></div>');
+
+     var missionListKrankentransporteDiv = $('#mission_list_krankentransporte');
+     var missionListKrankentransporte = missionListKrankentransporteDiv.html();
+     missionListKrankentransporteDiv.remove();
+     scriptTabContent.append('<div class="tab-pane" id="scriptTransports"><div id="mission_list_krankentransporte" style="padding-left:0">' + missionListKrankentransporte + '</div></div>');
+
+     var missionListAllianceDiv = $('#mission_list_alliance');
+     var missionListAlliance = missionListAllianceDiv.html();
+     missionListAllianceDiv.remove();
+     scriptTabContent.ap
+     */
 }
 
 // Suchleiste für Wachenliste
