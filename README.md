@@ -12,8 +12,6 @@ ASL ist ein Userscript für Leitstellenspiel.de, welches einige Funktionen einf�
 
 **Safari**: Du benötigst das Add-On [Tampermonkey]. Dann klickst Du auf [diesen Link] und bestätigst die Installation. Schon fertig!
 
-**Internet Explorer**: Zunächst lädst du folgende Datei herunter und entpackst sie: [internet_explorer.zip] Danach führst du die Datei "Reify_Turnabout_Advanced.exe" aus. Anschließend führst du die Datei "ordner_oeffnen.bat" aus und löschst alle Dateien in dem sich öffnenden Ordner. Dann fügst du die Dateien aus der ZIP Datei in den Ordner ein. Schon fertig!
-
 ### Features
 - zusätzliche Fahrzeug- und Gebäudeliste mit Anzahl der Gebäude/Fahrzeuge
 - Suchfunktion für den Chat, die Gebäudeliste rechts am Rand und für die Fahrzeug- und Gebäudeliste unten
@@ -34,7 +32,6 @@ Die Nutzung des Scripts geschieht auf eigene Gefahr. Ich hafte nicht für eventu
 Die SHPlay GmbH ist in keinster Weise für den Inhalt des Scripts verantwortlich. Das Script ist losgelöst von SHPlay und Leitstellenspiel.de
 
 [diesen Link]:https://github.com/eaglefsd/ASL/raw/master/script.user.js
-[internet_explorer.zip]:https://github.com/eaglefsd/ASL/raw/master/internet_explorer.zip
 [Greasemonkey]:https://addons.mozilla.org/de/firefox/addon/greasemonkey/
 [Tampermonkey]:https://tampermonkey.net/
 [Violent Monkey]:https://addons.opera.com/de/extensions/details/violent-monkey/
