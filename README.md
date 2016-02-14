@@ -15,10 +15,8 @@ ASL ist ein Userscript für Leitstellenspiel.de, welches einige Funktionen einf�
 ### Features
 - zusätzliche Fahrzeug- und Gebäudeliste mit Anzahl der Gebäude/Fahrzeuge
 - Suchfunktion für den Chat, die Gebäudeliste rechts am Rand und für die Fahrzeug- und Gebäudeliste unten
-- Tabs bei den Einsätzen und in der Gebäudeliste rechts am Rand
-- Fahrzeuge in der Wachenliste rechts am Rand sind per Klick auf das Icon der Wache einklappbar
-- Anzeige der Patienten in der Einsatzliste
-- Entfernen des oberen Logos
+- Tabs bei den Einsätzen rechts am Rand
+- Zusammenfassung der Patienten in der Einsatzliste
 - Titel der Seite ändert sich bei einem Sprechwunsch
 - Button zum Anzeigen der Fahrzeugtypen statt Fahrzeugnamen bei einem Einsatz
 - AAO Buttons bekommen nach Anklicken einen schwarzen Rand
