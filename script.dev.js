@@ -71,16 +71,27 @@ var carsById = {
     52: 'GefKw'
 };
 
-jQuery = $;
+var educationNames = {
+    'wechsellader': 'Wechsellader',
+    'gw_messtechnik': 'GW-Messtechnik',
+    'gw_hoehenrettung': 'GW-Höhenrettung',
+    'gw_gefahrgut': 'GW-Gefahrgut',
+    'elw2': 'ELW 2',
+    'notarzt': 'Notarzt',
+    'police_einsatzleiter': 'Einsatzleiter',
+    'police_fukw': 'FuKW',
+    'thw_zugtrupp': 'Zugtrupp',
+    'thw_raumen': 'Räumen'
+};
 
 // Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
 var buildingAmount = [], carAmount = [], carAvailableAmount = [];
 
-$('.aao').bind('click', function () {
+$('.aao').bind('click', function() {
         $(this).css('border', '2px solid black');
     }
 );
-$('.vehicle_group').bind('click', function () {
+$('.vehicle_group').bind('click', function() {
         $(this).css('border', '2px solid black');
     }
 );
@@ -107,7 +118,7 @@ function countBuildings() {
     }
 
     // für jedes Gebäude, was in der Liste gefunden wird, +1 im Array buildingAmount rechnen
-    $('#building_list').find('.building_list_li').each(function () {
+    $('#building_list').find('.building_list_li').each(function() {
         buildingAmount[$(this).attr('building_type_id')]++;
     });
     return buildingAmount;
@@ -122,7 +133,7 @@ function countCars() {
     }
 
     // für jedes Fahrzeug, was in der Liste gefunden wird, +1 im Array carAmount rechnen
-    $('.building_list_vehicle_element').each(function () {
+    $('.building_list_vehicle_element').each(function() {
         carAmount[$(this).find('a').attr('vehicle_type_id')]++;
     });
     return carAmount;
@@ -137,7 +148,7 @@ function countAvailableCars() {
     }
 
     // für jedes Fahrzeug, was in der Liste gefunden wird und Status 1 oder 2 ist, +1 im Array carAvailableAmount rechnen
-    $('.building_list_vehicle_element').each(function () {
+    $('.building_list_vehicle_element').each(function() {
         if ($(this).find('span').html() == "2") {
             carAvailableAmount[$(this).find('a').attr('vehicle_type_id')]++;
         }
@@ -178,10 +189,10 @@ function showCarAmount() {
 function showBuildingSearch() {
     $('#scriptBuildingAmount').append('<input id="scriptBuildingSearch" class="form-control" placeholder="Suchen" type="text"><br /><br />');
 
-    $('#scriptBuildingSearch').bind('keyup', function () {
+    $('#scriptBuildingSearch').bind('keyup', function() {
         var searchWord = new RegExp($('#scriptBuildingSearch').val().toLowerCase());
 
-        $('#scriptBuildingAmountTable').find('tr').each(function () {
+        $('#scriptBuildingAmountTable').find('tr').each(function() {
             // zunächst die Zeile wieder sichtbar machen
             $(this).show();
 
@@ -197,10 +208,10 @@ function showBuildingSearch() {
 function showCarSearch() {
     $('#scriptCarAmount').append('<input id="scriptCarSearch" class="form-control" placeholder="Suchen" type="text"><br /><br />');
 
-    $('#scriptCarSearch').bind('keyup', function () {
+    $('#scriptCarSearch').bind('keyup', function() {
         var searchWord = new RegExp($('#scriptCarSearch').val().toLowerCase());
 
-        $('#scriptCarAmountTable').find('tr').each(function () {
+        $('#scriptCarAmountTable').find('tr').each(function() {
             // zunächst die Zeile wieder sichtbar machen
             $(this).show();
 
@@ -260,10 +271,10 @@ function tabsForMissions() {
 function showStationSearch() {
     $('#buildings').find('.panel-heading').append('<input id="scriptStationSearch" class="form-control" placeholder="Suchen" type="text">');
 
-    $('#scriptStationSearch').bind('keyup', function () {
+    $('#scriptStationSearch').bind('keyup', function() {
         var searchWord = new RegExp($('#scriptStationSearch').val().toLowerCase());
 
-        $('#building_list').find('.map_position_mover').each(function () {
+        $('#building_list').find('.map_position_mover').each(function() {
             // zunächst die Wache wieder sichtbar machen
             $(this).parent().parent().show();
 
@@ -279,10 +290,10 @@ function showStationSearch() {
 function showChatSearch() {
     $('#chat_outer').find('.panel-heading').append('<input id="scriptChatSearch" class="form-control" placeholder="Suchen" type="text">');
 
-    $('#scriptChatSearch').bind('keyup', function () {
+    $('#scriptChatSearch').bind('keyup', function() {
         var searchWord = new RegExp($('#scriptChatSearch').val().toLowerCase());
 
-        $('#mission_chat_messages').find('li').each(function () {
+        $('#mission_chat_messages').find('li').each(function() {
             // zunächst die Wache wieder sichtbar machen
             $(this).show();
 
@@ -326,12 +337,12 @@ function countPatients() {
 function showCarTypesInsteadOfStation() {
     // Button neben dem ersten "Alarmieren"-Button erstellen
     $('#missionH1').after('<button type="button" id="scriptShowCarTypes" class="btn btn-info btn-mini">Fzg.-Typen anzeigen</button>');
-    $('#scriptShowCarTypes').bind('click', function () {
-            $('td[vehicle_type_id]').each(function () {
+    $('#scriptShowCarTypes').bind('click', function() {
+            $('td[vehicle_type_id]').each(function() {
                     $(this).parent().find('td:eq(2)').html(carsById[$(this).attr('vehicle_type_id')]);
                 }
             );
-            $('a[vehicle_type_id]').each(function () {
+            $('a[vehicle_type_id]').each(function() {
                     $(this).html(carsById[$(this).attr('vehicle_type_id')]);
                 }
             );
@@ -344,7 +355,7 @@ function useEasyHotkeys() {
     $(document).on('keydown', function(e) {
         var keynum,
             hotkey;
-        if(window.event) {
+        if (window.event) {
             keynum = e.keyCode;
         } else {
             keynum = e.which;
@@ -352,13 +363,189 @@ function useEasyHotkeys() {
 
         hotkey = String.fromCharCode(keynum).trim();
 
-        if($('#mission_reply_content').is(':focus')) {
+        if ($('#mission_reply_content').is(':focus')) {
             return;
         }
-        if(hotkey != " " && hotkey != "") {
-            $('[accesskey='+ hotkey +']').click();
+        if (hotkey != " " && hotkey != "") {
+            $('[accesskey=' + hotkey + ']').click();
         }
     });
+}
+
+// Alte Statistiken entfernen und alles vorbereiten
+function prepareStatistics() {
+    $('.form-actions').hide();
+    $('#scriptStatistics').remove();
+    $('#scriptStatisticsLi').remove();
+    $('#tabs').append('<li role="presentation" id="scriptStatisticsLi""><a data-toggle="tab" role="tab" aria-controls="scriptStatistics" href="#scriptStatistics" id="scriptStatisticsTab">Statistiken</a></li>');
+    $('.tab-content').append('<div id="scriptStatistics" class="tab-pane" role="tabpanel"><table class="table table-striped table-bordered table-condensed table-hover" id="scriptStatisticTable"><thead><tr><th>Bezeichnung</th><th>Anzahl</th><th>Anteil an Personal gesamt</th><th>Anteil an Ausbildungen</th></tr></thead><tbody id="scriptStatisticTableBody"></tbody></table></div>');
+}
+
+// Statistik-Tab öffnen
+function goToStatistics() {
+    $('#scriptStatisticsTab').tab('show');
+}
+
+// Statistik-Tabelle erstellen
+function createStatisticTableBody(personalCount, educatedPersonalCount, personal) {
+    $('#scriptStatisticTableBody').append('<tr><td>Personal gesamt</td><td>' + personalCount + '</td><td class="scriptPercent">100</td><td class="scriptPercent">100</td></tr>');
+    $('#scriptStatisticTableBody').append('<tr><td>Ausbildungen</td><td>' + educatedPersonalCount + '</td><td class="scriptPercent">' + Math.round(educatedPersonalCount / personalCount * 100) + '</td><td class="scriptPercent">100</td></tr>');
+}
+
+// Chart erstellen
+function drawChart(personal, educatedPersonalCount, personalCount) {
+    var key,
+        percentPersonal,
+        percentEducatedPersonal,
+        personalPercentageArray = [],
+        chart;
+    for (key in personal) {
+        percentPersonal = personal[key] === 0 ? 0 : Math.round(personal[key] / personalCount * 100);
+        percentEducatedPersonal = personal[key] === 0 ? 0 : Math.round(personal[key] / educatedPersonalCount * 100);
+        $('#scriptStatisticTableBody').append('<tr><td>' + educationNames[key] + '</td><td>' + personal[key] + '</td><td class="scriptPercent">' + percentPersonal + '</td><td class="scriptPercent">' + percentEducatedPersonal + '</td></tr>');
+        personalPercentageArray.push({
+            y: percentEducatedPersonal,
+            indexLabel: percentEducatedPersonal + '% ' + educationNames[key],
+            legendText: educationNames[key] + ': ' + personal[key]
+        });
+    }
+
+    $('#scriptStatistics').append('<p><b>Personal gesamt:</b> Alle Personen, deren Wache(n) zum Zeitpunkt der Erstellung der Statistik geladen war(en).</p><p><b>Ausbildungen:</b> Alle Ausbildungen. Hat eine Person zwei Ausbildungen, so werden beide einzeln gezählt.</p>');
+    $('#scriptStatistics').append('<div id="chartContainer" style="height: 400px;"></div>');
+
+    chart = new CanvasJS.Chart('chartContainer', {
+        title: {
+            'text': 'Lehrgangsverteilung'
+        },
+        legend: {
+            verticalAlign: 'bottom',
+            horizontalAlign: 'center'
+        },
+        data: [
+            {
+                type: 'doughnut',
+                showInLegend: true,
+                dataPoints: personalPercentageArray
+            }
+        ]
+    });
+    chart.render();
+    $('#scriptStatistics').append('<div><p>Bezieht sich auf die gesamte Lehrgangszahl von ' + educatedPersonalCount + ' Lehrgängen.</p></div>');
+    goToStatistics();
+}
+
+// Diagramme und Zahlen in der Schule anzeigen
+function showSchoolStatistic() {
+    prepareStatistics();
+    var schoolKey = $('#education_0').attr('education_key'),
+        personalCount = $('input[type="checkbox"]').length,
+        educatedPersonalCount = 0,
+        personal = {};
+
+    educatedPersonalCount = $('input[type="checkbox"][wechsellader="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][thw_zugtrupp="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][thw_raumen="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][police_fukw="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][police_einsatzleiter="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][notarzt="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][gw_messtechnik="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][gw_hoehenrettung="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][gw_gefahrgut="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][elw2="true"]').length;
+
+    if (schoolKey == 'gw_messtechnik') {
+        // Feuerwehr
+        personal = {
+            'wechsellader': 0,
+            'gw_messtechnik': 0,
+            'gw_hoehenrettung': 0,
+            'gw_gefahrgut': 0,
+            'elw2': 0
+        };
+    }
+    /*else if (schoolKey == 'notarzt') {
+     // Rettungsdienst
+     } else if (schoolKey == 'police_einsatzleiter') {
+     // Polizei
+     } else if(schoolKey == 'thw_zugtrupp' {
+     //THW
+     }*/
+    $('input[type="checkbox"]').each(function(index, element) {
+        var value;
+        for (value in personal) {
+            if ($(this).attr(value) == 'true') {
+                personal[value]++;
+            }
+        }
+    });
+
+    createStatisticTableBody(personalCount, educatedPersonalCount, personal);
+    drawChart(personal, educatedPersonalCount, personalCount);
+}
+
+// Diagramme und Zahlen für eine einzelne Wache in der Schule anzeigen
+function showStationSchoolStatistic(stationId) {
+    prepareStatistics();
+    var schoolKey = $('#education_0').attr('education_key'),
+        personalCount = $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"]').length,
+        educatedPersonalCount = 0,
+        personal = {};
+
+    educatedPersonalCount = $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][wechsellader="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][thw_zugtrupp="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][thw_raumen="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][police_fukw="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][police_einsatzleiter="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][notarzt="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_messtechnik="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_hoehenrettung="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_gefahrgut="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][elw2="true"]').length;
+
+    switch (schoolKey) {
+    case 'gw_messtechnik':
+        // Feuerwehr
+        personal = {
+            'wechsellader': 0,
+            'gw_messtechnik': 0,
+            'gw_hoehenrettung': 0,
+            'gw_gefahrgut': 0,
+            'elw2': 0
+        };
+        break;
+    case 'notarzt':
+        // Rettungsdienst
+        personal = {
+            'notarzt': 0
+        };
+        break;
+    case 'police_einsatzleiter':
+        // Polizei
+        personal = {
+            'police_einsatzleiter': 0,
+            'police_fukw': 0
+        };
+        break;
+    case 'thw_zugtrupp':
+        //THW
+        personal = {
+            'thw_zugtrupp': 0,
+            'thw_raumen': 0
+        };
+        break;
+    }
+
+    $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"]').each(function(index, element) {
+        var value;
+        for (value in personal) {
+            if ($(this).attr(value) == 'true') {
+                personal[value]++;
+            }
+        }
+    });
+
+    createStatisticTableBody(personalCount, educatedPersonalCount, personal);
+    drawChart(personal, educatedPersonalCount, personalCount);
 }
 
 // Funktion wird immer angerufen, wenn ein Event von faye komm (bspw. Statuswechsel, neuer Einsatz etc.)
@@ -383,11 +570,11 @@ if (window.location.pathname == '/') {
     showChatSearch();
 
     // Faye dazu anweisen, die Funktion fayeEvent aufzurufen
-    faye.subscribe('/private-user' + user_id + 'de', function () {
+    faye.subscribe('/private-user' + user_id + 'de', function() {
         fayeEvent();
     });
     if (alliance_id != undefined) {
-        faye.subscribe('/private-alliance-' + alliance_id + 'de', function () {
+        faye.subscribe('/private-alliance-' + alliance_id + 'de', function() {
             fayeEvent();
         });
     }
@@ -396,4 +583,23 @@ if (window.location.pathname == '/') {
     // Einsätze
     showCarTypesInsteadOfStation();
     useEasyHotkeys();
+} else if (window.location.pathname.match(/buildings\//)) {
+    //Schule
+    if ($('#education_0').length > 0) {
+        $('[name="commit"]:last').after(' <button type="button" class="btn btn-primary" id="scriptLoadStationsButton">Alle Wachen laden (evtl. langsam)</button>');
+        $('#scriptLoadStationsButton').bind('click', function() {
+            $('.personal-select-heading').click();
+            $('.personal-select-heading').each(function() {
+                $(this).append(' <button type="button" class="btn btn-primary showStationStatistic" data-building_id="' + $(this).attr('building_id') + '">Wachenstatistik anzeigen</button>');
+            });
+            $('.showStationStatistic').bind('click', function() {
+                showStationSchoolStatistic($(this).attr('data-building_id'));
+            });
+            $(this).after(' <button type="button" class="btn btn-primary" id="scriptShowStatistics">Statistiken anzeigen</button>');
+            $('#scriptShowStatistics').bind('click', function() {
+                showSchoolStatistic();
+            });
+            $(this).remove();
+        });
+    }
 }
