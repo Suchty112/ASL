@@ -81,7 +81,8 @@ var educationNames = {
     'police_einsatzleiter': 'Einsatzleiter',
     'police_fukw': 'FuKW',
     'thw_zugtrupp': 'Zugtrupp',
-    'thw_raumen': 'Räumen'
+    'thw_raumen': 'Räumen',
+    'dekon_p': 'Dekon-P'
 };
 
 // Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
@@ -510,7 +511,8 @@ function showStationSchoolStatistic(stationId) {
             'gw_messtechnik': 0,
             'gw_hoehenrettung': 0,
             'gw_gefahrgut': 0,
-            'elw2': 0
+            'elw2': 0,
+            'dekon_p': 0
         };
         break;
     case 'notarzt':
