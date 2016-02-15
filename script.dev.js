@@ -68,7 +68,9 @@ var carsById = {
     49: 'AB-Öl',
     50: 'GruKw',
     51: 'FüKw',
-    52: 'GefKw'
+    52: 'GefKw',
+    53: 'GW Dekon-P',
+    54: 'AB-Dekon-P'
 };
 
 var educationNames = {
