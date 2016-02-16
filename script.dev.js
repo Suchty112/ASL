@@ -158,15 +158,6 @@ function showSettings() {
 // Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
 var buildingAmount = [], carAmount = [], carAvailableAmount = [];
 
-$('.aao').bind('click', function() {
-        $(this).css('border', '2px solid black');
-    }
-);
-$('.vehicle_group').bind('click', function() {
-        $(this).css('border', '2px solid black');
-    }
-);
-
 // zwei Divs für die Fahrzeuge und Wachen erstellen
 function prepareBuildingAndCarCounter() {
     var scriptAmountDiv = $('#scriptAmount');
@@ -684,6 +675,26 @@ if (window.location.pathname == '/') {
     if (settings.simpleHotkeys) {
         showCarTypesInsteadOfStation();
         useEasyHotkeys();
+    }
+
+    // AAO bei Klick umranden
+    if (settings.showBorderInAao) {
+        $('.aao').bind('click', function() {
+                if (!settings.nightDesign) {
+                    $(this).css('border', '2px solid black');
+                } else {
+                    $(this).css('border', '2px solid white');
+                }
+            }
+        );
+        $('.vehicle_group').bind('click', function() {
+                if (!settings.nightDesign) {
+                    $(this).css('border', '2px solid black');
+                } else {
+                    $(this).css('border', '2px solid white');
+                }
+            }
+        );
     }
 } else if (window.location.pathname.match(/buildings\//)) {
     //Schule
