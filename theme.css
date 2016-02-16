@@ -7480,6 +7480,9 @@ select {
     -webkit-filter: invert(1) grayscale(.7);
 }
 
-.alert-success {
+.alert-danger,
+.alert-success,
+.alert-info,
+.alert-warning {
     background-image: none;
 }
