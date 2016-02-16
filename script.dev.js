@@ -214,7 +214,7 @@ function countCars() {
 function countAvailableCars() {
     var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 53; i++) {
+    for (i = 0; i <= 55; i++) {
         carAvailableAmount[i] = 0;
     }
 
