@@ -7461,6 +7461,7 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
     background-color: #000000;
 }
 
+.form-control[readonly],
 .form-control,
 select {
     background-color: #464545;
