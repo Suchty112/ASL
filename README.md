@@ -21,6 +21,8 @@ ASL ist ein Userscript für Leitstellenspiel.de, welches einige Funktionen einf�
 - Button zum Anzeigen der Fahrzeugtypen statt Fahrzeugnamen bei einem Einsatz
 - AAO Buttons bekommen nach Anklicken einen schwarzen Rand
 - Personalübersicht in der Schule inkl. Diagramm
+- Nachtmodus (dunkle Farben)
+- Alles individuell ein- und abschaltbar über einen separaten Tab in der Leitstelle
 
 ### Mitmachen
 Du kannst mir gerne helfen, dieses Projekt weiter zu entwickeln. Dazu eröffnest du bitte einen Pull Request hier bei GitHub.
