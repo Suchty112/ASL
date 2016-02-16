@@ -87,6 +87,74 @@ var educationNames = {
     'dekon_p': 'Dekon-P'
 };
 
+var settingNames = {
+    'nightDesign': 'Dunkles Design',
+    'searchFields': 'Suchfelder bei den Wachen und im Verbandschat',
+    'missionTabs': 'Tabs in der Einsatzliste',
+    'carStationCounter': 'Fahrzeug- und Wachenübersicht',
+    'simpleHotkeys': 'AAO-Hotkeys ohne Tastenkombination nutzen',
+    'schoolStatistic': 'Statistiken in der Schule',
+    'showPatients': 'Patientenübersicht in der Einsatzliste zeigen',
+    'changeTabTitle': 'Tab-Titel bei neuem Sprechwunscht ändern',
+    'showBorderInAao': 'AAO-Button nach Betätigen mit Rahmen versehen'
+};
+
+// Einstellungen auslesen
+var settings;
+if (!window.localStorage.getItem('scriptEagleSettings')) {
+    settings = {
+        'nightDesign': true,
+        'searchFields': true,
+        'missionTabs': true,
+        'carStationCounter': true,
+        'simpleHotkeys': true,
+        'schoolStatistic': true,
+        'showPatients': true,
+        'changeTabTitle': true,
+        'showBorderInAao': true
+    };
+} else {
+    settings = JSON.parse(window.localStorage.getItem('scriptEagleSettings'));
+}
+
+// Einstellungen speichern
+function saveSettings() {
+    var key;
+    for (key in settings) {
+        if ($('#script'+ key).is(':checked')) {
+            settings[key] = true;
+        } else {
+            settings[key] = false;
+        }
+    }
+
+    window.localStorage.removeItem('scriptEagleSettings');
+    window.localStorage.setItem('scriptEagleSettings', JSON.stringify(settings));
+
+    parent.location.reload();
+}
+
+// Einstellungen anzeigen
+function showSettings() {
+    var key;
+    $('.tab-content').append('<div id="scriptSettings" class="tab-pane active" role="tabpanel"></div>');
+    $('#scriptSettings').append('<div class="form-horizontal" id="scriptSettingsCol"></div>');
+
+    for (key in settings) {
+        $('#scriptSettingsCol').append('<div class="form-group"><div class="col-sm-3"></div><div class="col-sm-9"><label for="script'+ key +'" class="checkbox"><input type="checkbox" id="script'+ key +'">'+ settingNames[key] +'</label></div></div>');
+        if (settings[key]) {
+            $('#script'+ key).attr('checked', 'checked');
+        }
+    }
+
+    $('#scriptSettingsCol').append('<div class="form-group"><div class="col-sm-3"></div><div class="col-sm-9"><button type="button" id="scriptSaveSettingsButton" class="btn btn-success">Einstellungen speichern und Seite neu laden</button></div></div>');
+    $('#scriptSaveSettingsButton').bind('click', function() {
+        saveSettings();
+    });
+
+    $('#tabs').append('<li role="presentation"><a data-toggle="tab" role="tab" aria-controls="scriptSettings" href="#scriptSettings" aria-expanded="false">Script-Einstellungen</a></li>');
+}
+
 // Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
 var buildingAmount = [], carAmount = [], carAvailableAmount = [];
 
@@ -456,23 +524,40 @@ function showSchoolStatistic() {
     educatedPersonalCount += $('input[type="checkbox"][gw_gefahrgut="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][elw2="true"]').length;
 
-    if (schoolKey == 'gw_messtechnik') {
+    switch (schoolKey) {
+    case 'gw_messtechnik':
         // Feuerwehr
         personal = {
             'wechsellader': 0,
             'gw_messtechnik': 0,
             'gw_hoehenrettung': 0,
             'gw_gefahrgut': 0,
-            'elw2': 0
+            'elw2': 0,
+            'dekon_p': 0
         };
+        break;
+    case 'notarzt':
+        // Rettungsdienst
+        personal = {
+            'notarzt': 0
+        };
+        break;
+    case 'police_einsatzleiter':
+        // Polizei
+        personal = {
+            'police_einsatzleiter': 0,
+            'police_fukw': 0
+        };
+        break;
+    case 'thw_zugtrupp':
+        //THW
+        personal = {
+            'thw_zugtrupp': 0,
+            'thw_raumen': 0
+        };
+        break;
     }
-    /*else if (schoolKey == 'notarzt') {
-     // Rettungsdienst
-     } else if (schoolKey == 'police_einsatzleiter') {
-     // Polizei
-     } else if(schoolKey == 'thw_zugtrupp' {
-     //THW
-     }*/
+
     $('input[type="checkbox"]').each(function(index, element) {
         var value;
         for (value in personal) {
@@ -554,24 +639,35 @@ function showStationSchoolStatistic(stationId) {
 
 // Funktion wird immer angerufen, wenn ein Event von faye komm (bspw. Statuswechsel, neuer Einsatz etc.)
 function fayeEvent() {
-    prepareBuildingAndCarCounter();
-    showBuildingSearch();
-    showCarSearch();
-    showBuildingAmount();
-    showCarAmount();
-    changeTabTitleByCall();
-    showMissionCounterInTab();
-    countPatients();
+    if (settings.carStationCounter) {
+        prepareBuildingAndCarCounter();
+        showBuildingSearch();
+        showCarSearch();
+        showBuildingAmount();
+        showCarAmount();
+    }
+    if (settings.changeTabTitle) {
+        changeTabTitleByCall();
+    }
+    if (settings.missionTabs) {
+        showMissionCounterInTab();
+    }
+    if (settings.showPatients) {
+        countPatients();
+    }
 }
 
 // Fallunterscheidung für die verschiedenen Seiten
 if (window.location.pathname == '/') {
     // Startseite
-    tabsForMissions();
+    if (settings.missionTabs) {
+        tabsForMissions();
+    }
     fayeEvent();
-    changeTabTitleByCall();
-    showStationSearch();
-    showChatSearch();
+    if (settings.searchFields) {
+        showStationSearch();
+        showChatSearch();
+    }
 
     // Faye dazu anweisen, die Funktion fayeEvent aufzurufen
     faye.subscribe('/private-user' + user_id + 'de', function() {
@@ -585,25 +681,42 @@ if (window.location.pathname == '/') {
     $('#btn-alliance-new-mission').css('margin-bottom', '0');
 } else if (window.location.pathname.match(/missions\//)) {
     // Einsätze
-    showCarTypesInsteadOfStation();
-    useEasyHotkeys();
+    if (settings.simpleHotkeys) {
+        showCarTypesInsteadOfStation();
+        useEasyHotkeys();
+    }
 } else if (window.location.pathname.match(/buildings\//)) {
     //Schule
-    if ($('#education_0').length > 0) {
-        $('[name="commit"]:last').after(' <button type="button" class="btn btn-primary" id="scriptLoadStationsButton">Alle Wachen laden (evtl. langsam)</button>');
-        $('#scriptLoadStationsButton').bind('click', function() {
-            $('.personal-select-heading').click();
-            $('.personal-select-heading').each(function() {
-                $(this).append(' <button type="button" class="btn btn-primary showStationStatistic" data-building_id="' + $(this).attr('building_id') + '">Wachenstatistik anzeigen</button>');
+    if (settings.schoolStatistic) {
+        if ($('#education_0').length > 0) {
+            $('[name="commit"]:last').after(' <button type="button" class="btn btn-primary" id="scriptLoadStationsButton">Alle Wachen laden (evtl. langsam)</button>');
+            $('#scriptLoadStationsButton').bind('click', function() {
+                $('.personal-select-heading').click();
+                $('.personal-select-heading').each(function() {
+                    $(this).append(' <button type="button" class="btn btn-primary showStationStatistic" data-building_id="' + $(this).attr('building_id') + '">Wachenstatistik anzeigen</button>');
+                });
+                $('.showStationStatistic').bind('click', function() {
+                    showStationSchoolStatistic($(this).attr('data-building_id'));
+                });
+                $(this).after(' <button type="button" class="btn btn-primary" id="scriptShowStatistics">Statistiken anzeigen</button>');
+                $('#scriptShowStatistics').bind('click', function() {
+                    showSchoolStatistic();
+                });
+                $(this).remove();
             });
-            $('.showStationStatistic').bind('click', function() {
-                showStationSchoolStatistic($(this).attr('data-building_id'));
-            });
-            $(this).after(' <button type="button" class="btn btn-primary" id="scriptShowStatistics">Statistiken anzeigen</button>');
-            $('#scriptShowStatistics').bind('click', function() {
-                showSchoolStatistic();
-            });
-            $(this).remove();
-        });
+        }
     }
+
+    // Leitstelle
+    if ($('[data-toggle="tab"]:eq(0)').html() == 'Gebäude') {
+        showSettings();
+    }
+}
+
+// Nacht-Design
+if (settings.nightDesign) {
+    var styleElement = document.createElement("link");
+    styleElement.rel = "stylesheet";
+    styleElement.href = "http://lss.eagledev.de/ASL/theme.min.css";
+    document.getElementsByTagName('head')[0].appendChild(styleElement);
 }
