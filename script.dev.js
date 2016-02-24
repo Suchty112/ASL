@@ -120,7 +120,7 @@ if (!window.localStorage.getItem('scriptEagleSettings')) {
 // Einstellungen speichern
 function saveSettings() {
     var key;
-    for (key in settings) {
+    for (key in settingNames) {
         if ($('#script'+ key).is(':checked')) {
             settings[key] = true;
         } else {
@@ -140,7 +140,7 @@ function showSettings() {
     $('.tab-content').append('<div id="scriptSettings" class="tab-pane active" role="tabpanel"></div>');
     $('#scriptSettings').append('<div class="form-horizontal" id="scriptSettingsCol"></div>');
 
-    for (key in settings) {
+    for (key in settingNames) {
         $('#scriptSettingsCol').append('<div class="form-group"><div class="col-sm-3"></div><div class="col-sm-9"><label for="script'+ key +'" class="checkbox"><input type="checkbox" id="script'+ key +'">'+ settingNames[key] +'</label></div></div>');
         if (settings[key]) {
             $('#script'+ key).attr('checked', 'checked');
