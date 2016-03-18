@@ -299,7 +299,7 @@ function tabsForMissions() {
         missionListAlliance;
 
     missionDiv = $('#missions');
-    missionDiv.find('.btn-group').hide();
+    missionDiv.find('.btn-group:eq(0)').hide();
 
     // Größe anpassen
     $('#missions-panel-body').css('height', '450px');
