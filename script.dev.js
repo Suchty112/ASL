@@ -86,7 +86,9 @@ var educationNames = {
     'police_fukw': 'FuKW',
     'thw_zugtrupp': 'Zugtrupp',
     'thw_raumen': 'Räumen',
-    'dekon_p': 'Dekon-P'
+    'dekon_p': 'Dekon-P',
+    'lna': 'LNA',
+    'orgl':'OrgL'
 };
 
 var settingNames = {
