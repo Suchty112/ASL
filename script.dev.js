@@ -70,7 +70,9 @@ var carsById = {
     51: 'FüKw',
     52: 'GefKw',
     53: 'GW Dekon-P',
-    54: 'AB-Dekon-P'
+    54: 'AB-Dekon-P',
+    55: 'KdoW-LNA',
+    56: 'KdoW-OrgL'
 };
 
 var educationNames = {
@@ -84,7 +86,9 @@ var educationNames = {
     'police_fukw': 'FuKW',
     'thw_zugtrupp': 'Zugtrupp',
     'thw_raumen': 'Räumen',
-    'dekon_p': 'Dekon-P'
+    'dekon_p': 'Dekon-P',
+    'lna': 'LNA',
+    'orgl':'OrgL'
 };
 
 var settingNames = {
@@ -190,7 +194,7 @@ function countBuildings() {
 function countCars() {
     var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 55; i++) {
+    for (i = 0; i <= 57; i++) {
         carAmount[i] = 0;
     }
 
@@ -205,7 +209,7 @@ function countCars() {
 function countAvailableCars() {
     var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 55; i++) {
+    for (i = 0; i <= 57; i++) {
         carAvailableAmount[i] = 0;
     }
 
