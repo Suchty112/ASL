@@ -300,7 +300,9 @@ function tabsForMissions() {
         missionListKrankentransporteDiv,
         missionListKrankentransporte,
         missionListAllianceDiv,
-        missionListAlliance;
+        missionListAlliance,
+        missionListEventsDiv,
+        missionListEvents;
 
     missionDiv = $('#missions');
     missionDiv.find('.btn-group:eq(0)').hide();
@@ -313,7 +315,7 @@ function tabsForMissions() {
     missionListDiv.before('<div id="scriptMissionTab"></div>');
     scriptMissionTab = $('#scriptMissionTab');
 
-    missionDiv.find('.panel-heading:eq(0)').append('<div id="scriptMissionMenu"><ul class="nav nav-pills small" style="padding-left:0"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">VE (<span id="scriptAllianceCounter"></span>)</a></li></ul></div>');
+    missionDiv.find('.panel-heading:eq(0)').append('<div id="scriptMissionMenu"><ul class="nav nav-pills small" style="padding-left:0"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">VE (<span id="scriptAllianceCounter"></span>)</a></li><li><a href="#scriptEvents" data-toggle="tab">EVT (<span id="scriptEventsCounter"></span>)</a></li></ul></div>');
     scriptMissionTab.append('<div class="tab-content" id="scriptTabContent"></div>');
 
     missionList = missionListDiv.html();
@@ -331,6 +333,13 @@ function tabsForMissions() {
     missionListAlliance = missionListAllianceDiv.html();
     missionListAllianceDiv.remove();
     scriptTabContent.append('<div class="tab-pane" id="scriptAlliances"><div id="mission_list_alliance" style="padding-left:0">' + missionListAlliance + '</div></div>');
+
+    missionListEventsDiv = $('#mission_list_alliance_event');
+    missionListEvents = missionListEventsDiv.html();
+    missionListEventsDiv.remove();
+    scriptTabContent.append('<div class="tab-pane" id="scriptEvents"><div id="mission_list_alliance_event" style="padding-left:0">' + missionListEvents + '</div></div>');
+
+    
 }
 
 // Suchleiste für Wachenliste
@@ -386,6 +395,7 @@ function showMissionCounterInTab() {
     $('#scriptEmergencyCounter').html(missions.find('.btn-group').find('a:eq(0)').html().replace(')', '').split('(')[1]);
     $('#scriptTransportCounter').html(missions.find('.btn-group').find('a:eq(1)').html().replace(')', '').split('(')[1]);
     $('#scriptAllianceCounter').html(missions.find('.btn-group').find('a:eq(2)').html().replace(')', '').split('(')[1]);
+    $('#scriptEventsCounter').html(missions.find('.btn-group').find('a:eq(3)').html().replace(')', '').split('(')[1]);
 }
 
 // Patienten zählen und anzeigen
@@ -514,6 +524,8 @@ function showSchoolStatistic() {
     educatedPersonalCount += $('input[type="checkbox"][police_fukw="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][police_einsatzleiter="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][notarzt="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][lna="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][orgl="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][gw_messtechnik="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][gw_hoehenrettung="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][gw_gefahrgut="true"]').length;
@@ -534,7 +546,9 @@ function showSchoolStatistic() {
     case 'notarzt':
         // Rettungsdienst
         personal = {
-            'notarzt': 0
+            'notarzt': 0,
+            'lna': 0,
+            'orgl': 0
         };
         break;
     case 'police_einsatzleiter':
@@ -580,6 +594,8 @@ function showStationSchoolStatistic(stationId) {
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][police_fukw="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][police_einsatzleiter="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][notarzt="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][lna="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][orgl="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_messtechnik="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_hoehenrettung="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_gefahrgut="true"]').length;
@@ -600,7 +616,9 @@ function showStationSchoolStatistic(stationId) {
     case 'notarzt':
         // Rettungsdienst
         personal = {
-            'notarzt': 0
+            'notarzt': 0,
+            'lna': 0,
+            'orgl': 0
         };
         break;
     case 'police_einsatzleiter':
