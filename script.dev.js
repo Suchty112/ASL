@@ -335,7 +335,7 @@ function tabsForMissions() {
     scriptTabContent.append('<div class="tab-pane" id="scriptAlliances"><div id="mission_list_alliance" style="padding-left:0">' + missionListAlliance + '</div></div>');
 
     missionListEventsDiv = $('#mission_list_alliance_event');
-    missionListEvents = missionListAllianceDiv.html();
+    missionListEvents = missionListEventsDiv.html();
     missionListEventsDiv.remove();
     scriptTabContent.append('<div class="tab-pane" id="scriptEvents"><div id="mission_list_alliance_event" style="padding-left:0">' + missionListEvents + '</div></div>');
 
