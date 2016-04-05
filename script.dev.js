@@ -524,8 +524,6 @@ function showSchoolStatistic() {
     educatedPersonalCount += $('input[type="checkbox"][police_fukw="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][police_einsatzleiter="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][notarzt="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][lna="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][orgl="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][gw_messtechnik="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][gw_hoehenrettung="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][gw_gefahrgut="true"]').length;
@@ -546,9 +544,7 @@ function showSchoolStatistic() {
     case 'notarzt':
         // Rettungsdienst
         personal = {
-            'notarzt': 0,
-            'lna': 0,
-            'orgl': 0
+            'notarzt': 0
         };
         break;
     case 'police_einsatzleiter':
@@ -594,8 +590,6 @@ function showStationSchoolStatistic(stationId) {
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][police_fukw="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][police_einsatzleiter="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][notarzt="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][lna="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][orgl="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_messtechnik="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_hoehenrettung="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_gefahrgut="true"]').length;
@@ -616,9 +610,7 @@ function showStationSchoolStatistic(stationId) {
     case 'notarzt':
         // Rettungsdienst
         personal = {
-            'notarzt': 0,
-            'lna': 0,
-            'orgl': 0
+            'notarzt': 0
         };
         break;
     case 'police_einsatzleiter':
