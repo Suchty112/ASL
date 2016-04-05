@@ -546,8 +546,8 @@ function showSchoolStatistic() {
     case 'notarzt':
         // Rettungsdienst
         personal = {
-            'notarzt': 0
-            'lna': 0
+            'notarzt': 0,
+            'lna': 0,
             'orgl': 0
         };
         break;
@@ -616,8 +616,8 @@ function showStationSchoolStatistic(stationId) {
     case 'notarzt':
         // Rettungsdienst
         personal = {
-            'notarzt': 0
-            'lna': 0
+            'notarzt': 0,
+            'lna': 0,
             'orgl': 0
         };
         break;
