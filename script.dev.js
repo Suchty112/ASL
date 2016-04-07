@@ -99,7 +99,7 @@ var settingNames = {
     'simpleHotkeys': 'AAO-Hotkeys ohne Tastenkombination nutzen',
     'schoolStatistic': 'Statistiken in der Schule',
     'showPatients': 'Patientenübersicht in der Einsatzliste zeigen',
-    'changeTabTitle': 'Tab-Titel bei neuem Sprechwunscht ändern',
+    'changeTabTitle': 'Tab-Titel bei neuem Sprechwunsch ändern',
     'showBorderInAao': 'AAO-Button nach Betätigen mit Rahmen versehen'
 };
 
