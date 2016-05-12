@@ -72,7 +72,8 @@ var carsById = {
     53: 'GW Dekon-P',
     54: 'AB-Dekon-P',
     55: 'KdoW-LNA',
-    56: 'KdoW-OrgL'
+    56: 'KdoW-OrgL',
+    57: 'Kran'
 };
 
 var educationNames = {
@@ -88,7 +89,8 @@ var educationNames = {
     'thw_raumen': 'Räumen',
     'dekon_p': 'Dekon-P',
     'lna': 'LNA',
-    'orgl':'OrgL'
+    'orgl':'OrgL',
+    'fwk':'Kran'
 };
 
 var settingNames = {
@@ -194,7 +196,7 @@ function countBuildings() {
 function countCars() {
     var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 57; i++) {
+    for (i = 0; i <= 58; i++) {
         carAmount[i] = 0;
     }
 
@@ -209,7 +211,7 @@ function countCars() {
 function countAvailableCars() {
     var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 57; i++) {
+    for (i = 0; i <= 58; i++) {
         carAvailableAmount[i] = 0;
     }
 
@@ -530,6 +532,7 @@ function showSchoolStatistic() {
     educatedPersonalCount += $('input[type="checkbox"][gw_hoehenrettung="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][gw_gefahrgut="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][elw2="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][fwk="true"]').length;
 
     switch (schoolKey) {
     case 'gw_messtechnik':
@@ -540,7 +543,8 @@ function showSchoolStatistic() {
             'gw_hoehenrettung': 0,
             'gw_gefahrgut': 0,
             'elw2': 0,
-            'dekon_p': 0
+            'dekon_p': 0,
+            'fwk': 0
         };
         break;
     case 'notarzt':
@@ -600,6 +604,7 @@ function showStationSchoolStatistic(stationId) {
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_hoehenrettung="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_gefahrgut="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][elw2="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][fwk="true"]').length;
 
     switch (schoolKey) {
     case 'gw_messtechnik':
@@ -610,7 +615,8 @@ function showStationSchoolStatistic(stationId) {
             'gw_hoehenrettung': 0,
             'gw_gefahrgut': 0,
             'elw2': 0,
-            'dekon_p': 0
+            'dekon_p': 0,
+            'fwk': 0
         };
         break;
     case 'notarzt':
