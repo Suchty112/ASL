@@ -12,7 +12,8 @@ var buildingsById = {
     8: 'Polizeischule',
     9: 'THW',
     10: 'THW Schule',
-    11: 'Bereitschaftspolizei'
+    11: 'Bereitschaftspolizei',
+    12: 'Schnelleinsatzgruppe (SEG)'
 };
 
 var carsById = {
@@ -73,7 +74,10 @@ var carsById = {
     54: 'AB-Dekon-P',
     55: 'KdoW-LNA',
     56: 'KdoW-OrgL',
-    57: 'Kran'
+    57: 'Kran',
+    58: 'KTW Typ B',
+    59: 'ELW 1 (SEG)',
+    60: 'GW-SAN'
 };
 
 var educationNames = {
@@ -90,7 +94,9 @@ var educationNames = {
     'dekon_p': 'Dekon-P',
     'lna': 'LNA',
     'orgl':'OrgL',
-    'fwk':'Kran'
+    'fwk':'Kran',
+    'seg_elw':'ELW(SEG)',
+    'seg_gw_san':'GW-SAN'
 };
 
 var settingNames = {
@@ -181,7 +187,7 @@ function prepareBuildingAndCarCounter() {
 function countBuildings() {
     var i;
     // alle Zählerstände der Gebäude auf 0 setzen
-    for (i = 0; i <= 12; i++) {
+    for (i = 0; i <= 13; i++) {
         buildingAmount[i] = 0;
     }
 
@@ -196,7 +202,7 @@ function countBuildings() {
 function countCars() {
     var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 58; i++) {
+    for (i = 0; i <= 61; i++) {
         carAmount[i] = 0;
     }
 
@@ -211,7 +217,7 @@ function countCars() {
 function countAvailableCars() {
     var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 58; i++) {
+    for (i = 0; i <= 61; i++) {
         carAvailableAmount[i] = 0;
     }
 
@@ -533,6 +539,8 @@ function showSchoolStatistic() {
     educatedPersonalCount += $('input[type="checkbox"][gw_gefahrgut="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][elw2="true"]').length;
     educatedPersonalCount += $('input[type="checkbox"][fwk="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][seg_gw_san="true"]').length;
+    educatedPersonalCount += $('input[type="checkbox"][seg_elw="true"]').length;
 
     switch (schoolKey) {
     case 'gw_messtechnik':
@@ -552,7 +560,9 @@ function showSchoolStatistic() {
         personal = {
             'notarzt': 0,
             'lna': 0,
-            'orgl': 0
+            'orgl': 0,
+            'seg_gw_san': 0,
+            'seg_elw': 0
         };
         break;
     case 'police_einsatzleiter':
@@ -605,6 +615,9 @@ function showStationSchoolStatistic(stationId) {
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_gefahrgut="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][elw2="true"]').length;
     educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][fwk="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][seg_elw="true"]').length;
+    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][seg_gw_san="true"]').length;
+
 
     switch (schoolKey) {
     case 'gw_messtechnik':
@@ -624,7 +637,9 @@ function showStationSchoolStatistic(stationId) {
         personal = {
             'notarzt': 0,
             'lna': 0,
-            'orgl': 0
+            'orgl': 0,
+            'seg_gw_san': 0,
+            'seg_elw': 0
         };
         break;
     case 'police_einsatzleiter':
