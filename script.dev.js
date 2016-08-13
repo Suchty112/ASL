@@ -105,7 +105,7 @@ var settingNames = {
     'missionTabs': 'Tabs in der Einsatzliste',
     'carStationCounter': 'Fahrzeug- und Wachenübersicht',
     'simpleHotkeys': 'AAO-Hotkeys ohne Tastenkombination nutzen',
-    'schoolStatistic': 'Statistiken in der Schule',
+    //'schoolStatistic': 'Statistiken in der Schule',
     'showPatients': 'Patientenübersicht in der Einsatzliste zeigen',
     'changeTabTitle': 'Tab-Titel bei neuem Sprechwunsch ändern',
     'showBorderInAao': 'AAO-Button nach Betätigen mit Rahmen versehen'
@@ -483,201 +483,6 @@ function createStatisticTableBody(personalCount, educatedPersonalCount, personal
     $('#scriptStatisticTableBody').append('<tr><td>Ausbildungen</td><td>' + educatedPersonalCount + '</td><td class="scriptPercent">' + Math.round(educatedPersonalCount / personalCount * 100) + '</td><td class="scriptPercent">100</td></tr>');
 }
 
-// Chart erstellen
-function drawChart(personal, educatedPersonalCount, personalCount) {
-    var key,
-        percentPersonal,
-        percentEducatedPersonal,
-        personalPercentageArray = [],
-        chart;
-    for (key in personal) {
-        percentPersonal = personal[key] === 0 ? 0 : Math.round(personal[key] / personalCount * 100);
-        percentEducatedPersonal = personal[key] === 0 ? 0 : Math.round(personal[key] / educatedPersonalCount * 100);
-        $('#scriptStatisticTableBody').append('<tr><td>' + educationNames[key] + '</td><td>' + personal[key] + '</td><td class="scriptPercent">' + percentPersonal + '</td><td class="scriptPercent">' + percentEducatedPersonal + '</td></tr>');
-        personalPercentageArray.push({
-            y: percentEducatedPersonal,
-            indexLabel: percentEducatedPersonal + '% ' + educationNames[key],
-            legendText: educationNames[key] + ': ' + personal[key]
-        });
-    }
-
-    $('#scriptStatistics').append('<p><b>Personal gesamt:</b> Alle Personen, deren Wache(n) zum Zeitpunkt der Erstellung der Statistik geladen war(en).</p><p><b>Ausbildungen:</b> Alle Ausbildungen. Hat eine Person zwei Ausbildungen, so werden beide einzeln gezählt.</p>');
-    $('#scriptStatistics').append('<div id="chartContainer" style="height: 400px;"></div>');
-
-    chart = new CanvasJS.Chart('chartContainer', {
-        title: {
-            'text': 'Lehrgangsverteilung'
-        },
-        legend: {
-            verticalAlign: 'bottom',
-            horizontalAlign: 'center'
-        },
-        data: [
-            {
-                type: 'doughnut',
-                showInLegend: true,
-                dataPoints: personalPercentageArray
-            }
-        ]
-    });
-    chart.render();
-    $('#scriptStatistics').append('<div><p>Bezieht sich auf die gesamte Lehrgangszahl von ' + educatedPersonalCount + ' Lehrgängen.</p></div>');
-    goToStatistics();
-}
-
-// Diagramme und Zahlen in der Schule anzeigen
-function showSchoolStatistic() {
-    prepareStatistics();
-    var schoolKey = $('#education_0').attr('education_key'),
-        personalCount = $('input[type="checkbox"]').length,
-        educatedPersonalCount = 0,
-        personal = {};
-
-    educatedPersonalCount = $('input[type="checkbox"][wechsellader="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][thw_zugtrupp="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][thw_raumen="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][police_fukw="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][police_einsatzleiter="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][notarzt="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][lna="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][orgl="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][gw_messtechnik="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][gw_hoehenrettung="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][gw_gefahrgut="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][elw2="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][fwk="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][seg_gw_san="true"]').length;
-    educatedPersonalCount += $('input[type="checkbox"][seg_elw="true"]').length;
-
-    switch (schoolKey) {
-    case 'gw_messtechnik':
-        // Feuerwehr
-        personal = {
-            'wechsellader': 0,
-            'gw_messtechnik': 0,
-            'gw_hoehenrettung': 0,
-            'gw_gefahrgut': 0,
-            'elw2': 0,
-            'dekon_p': 0,
-            'fwk': 0
-        };
-        break;
-    case 'notarzt':
-        // Rettungsdienst
-        personal = {
-            'notarzt': 0,
-            'lna': 0,
-            'orgl': 0,
-            'seg_gw_san': 0,
-            'seg_elw': 0
-        };
-        break;
-    case 'police_einsatzleiter':
-        // Polizei
-        personal = {
-            'police_einsatzleiter': 0,
-            'police_fukw': 0
-        };
-        break;
-    case 'thw_zugtrupp':
-        //THW
-        personal = {
-            'thw_zugtrupp': 0,
-            'thw_raumen': 0
-        };
-        break;
-    }
-
-    $('input[type="checkbox"]').each(function(index, element) {
-        var value;
-        for (value in personal) {
-            if ($(this).attr(value) == 'true') {
-                personal[value]++;
-            }
-        }
-    });
-
-    createStatisticTableBody(personalCount, educatedPersonalCount, personal);
-    drawChart(personal, educatedPersonalCount, personalCount);
-}
-
-// Diagramme und Zahlen für eine einzelne Wache in der Schule anzeigen
-function showStationSchoolStatistic(stationId) {
-    prepareStatistics();
-    var schoolKey = $('#education_0').attr('education_key'),
-        personalCount = $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"]').length,
-        educatedPersonalCount = 0,
-        personal = {};
-
-    educatedPersonalCount = $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][wechsellader="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][thw_zugtrupp="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][thw_raumen="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][police_fukw="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][police_einsatzleiter="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][notarzt="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][lna="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][orgl="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_messtechnik="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_hoehenrettung="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][gw_gefahrgut="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][elw2="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][fwk="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][seg_elw="true"]').length;
-    educatedPersonalCount += $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"][seg_gw_san="true"]').length;
-
-
-    switch (schoolKey) {
-    case 'gw_messtechnik':
-        // Feuerwehr
-        personal = {
-            'wechsellader': 0,
-            'gw_messtechnik': 0,
-            'gw_hoehenrettung': 0,
-            'gw_gefahrgut': 0,
-            'elw2': 0,
-            'dekon_p': 0,
-            'fwk': 0
-        };
-        break;
-    case 'notarzt':
-        // Rettungsdienst
-        personal = {
-            'notarzt': 0,
-            'lna': 0,
-            'orgl': 0,
-            'seg_gw_san': 0,
-            'seg_elw': 0
-        };
-        break;
-    case 'police_einsatzleiter':
-        // Polizei
-        personal = {
-            'police_einsatzleiter': 0,
-            'police_fukw': 0
-        };
-        break;
-    case 'thw_zugtrupp':
-        //THW
-        personal = {
-            'thw_zugtrupp': 0,
-            'thw_raumen': 0
-        };
-        break;
-    }
-
-    $('.panel-body[building_id="' + stationId + '"] input[type="checkbox"]').each(function(index, element) {
-        var value;
-        for (value in personal) {
-            if ($(this).attr(value) == 'true') {
-                personal[value]++;
-            }
-        }
-    });
-
-    createStatisticTableBody(personalCount, educatedPersonalCount, personal);
-    drawChart(personal, educatedPersonalCount, personalCount);
-}
-
 // Funktion wird immer angerufen, wenn ein Event von faye komm (bspw. Statuswechsel, neuer Einsatz etc.)
 function fayeEvent() {
     if (settings.carStationCounter) {
@@ -748,28 +553,12 @@ if (window.location.pathname == '/') {
     }
 } else if (window.location.pathname.match(/buildings\//)) {
     //Schule
-    if (settings.schoolStatistic) {
-        if ($('#education_0').length > 0) {
-            $('[name="commit"]:last').after(' <button type="button" class="btn btn-primary" id="scriptLoadStationsButton">Alle Wachen laden (evtl. langsam)</button>');
-            $('#scriptLoadStationsButton').bind('click', function() {
-                $('.personal-select-heading').click();
-                $('.personal-select-heading').each(function() {
-                    $(this).append(' <button type="button" class="btn btn-primary showStationStatistic" data-building_id="' + $(this).attr('building_id') + '">Wachenstatistik anzeigen</button>');
-                });
-                $('.showStationStatistic').bind('click', function() {
-                    showStationSchoolStatistic($(this).attr('data-building_id'));
-                });
-                $(this).after(' <button type="button" class="btn btn-primary" id="scriptShowStatistics">Statistiken anzeigen</button>');
-                $('#scriptShowStatistics').bind('click', function() {
-                    showSchoolStatistic();
-                });
-                $(this).remove();
-            });
-        }
-    }
+    /*if (settings.schoolStatistic) {
+
+    }*/
 
     // Leitstelle
-    if ($('[data-toggle="tab"]:eq(0)').html() == 'Gebäude') {
+    if ($('[data-toggle="tab"]:eq(1)').html() == 'Gebäude') {
         showSettings();
     }
 }
@@ -778,6 +567,6 @@ if (window.location.pathname == '/') {
 if (settings.nightDesign) {
     var styleElement = document.createElement("link");
     styleElement.rel = "stylesheet";
-    styleElement.href = "http://lss.eagledev.de/ASL/theme.min.css";
+    styleElement.href = "https://lss.hassels.eu/ASL/theme.min.css";
     document.getElementsByTagName('head')[0].appendChild(styleElement);
 }
