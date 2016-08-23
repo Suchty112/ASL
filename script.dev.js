@@ -13,7 +13,8 @@ var buildingsById = {
     9: 'THW',
     10: 'THW Schule',
     11: 'Bereitschaftspolizei',
-    12: 'Schnelleinsatzgruppe (SEG)'
+    12: 'Schnelleinsatzgruppe (SEG)',
+    13: 'Polizeihubschrauber-Station'
 };
 
 var carsById = {
@@ -77,7 +78,8 @@ var carsById = {
     57: 'Kran',
     58: 'KTW Typ B',
     59: 'ELW 1 (SEG)',
-    60: 'GW-SAN'
+    60: 'GW-SAN',
+    61: 'Polizeihubschrauber'
 };
 
 var educationNames = {
@@ -96,7 +98,8 @@ var educationNames = {
     'orgl':'OrgL',
     'fwk':'Kran',
     'seg_elw':'ELW(SEG)',
-    'seg_gw_san':'GW-SAN'
+    'seg_gw_san':'GW-SAN',
+    'polizeihubschrauber':'Polizeihubschrauber'
 };
 
 var settingNames = {
@@ -187,7 +190,7 @@ function prepareBuildingAndCarCounter() {
 function countBuildings() {
     var i;
     // alle Zählerstände der Gebäude auf 0 setzen
-    for (i = 0; i <= 13; i++) {
+    for (i = 0; i <= 14; i++) {
         buildingAmount[i] = 0;
     }
 
@@ -202,7 +205,7 @@ function countBuildings() {
 function countCars() {
     var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 61; i++) {
+    for (i = 0; i <= 62; i++) {
         carAmount[i] = 0;
     }
 
@@ -217,7 +220,7 @@ function countCars() {
 function countAvailableCars() {
     var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 61; i++) {
+    for (i = 0; i <= 62; i++) {
         carAvailableAmount[i] = 0;
     }
 
