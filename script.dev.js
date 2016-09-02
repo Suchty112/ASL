@@ -79,7 +79,8 @@ var carsById = {
     58: 'KTW Typ B',
     59: 'ELW 1 (SEG)',
     60: 'GW-SAN',
-    61: 'Polizeihubschrauber'
+    61: 'Polizeihubschrauber',
+    62: 'AB-Schlauch'
 };
 
 var educationNames = {
@@ -205,7 +206,7 @@ function countBuildings() {
 function countCars() {
     var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 62; i++) {
+    for (i = 0; i <= 63; i++) {
         carAmount[i] = 0;
     }
 
@@ -220,7 +221,7 @@ function countCars() {
 function countAvailableCars() {
     var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 62; i++) {
+    for (i = 0; i <= 63; i++) {
         carAvailableAmount[i] = 0;
     }
 
