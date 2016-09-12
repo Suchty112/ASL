@@ -14,7 +14,8 @@ var buildingsById = {
     10: 'THW Schule',
     11: 'Bereitschaftspolizei',
     12: 'Schnelleinsatzgruppe (SEG)',
-    13: 'Polizeihubschrauber-Station'
+    13: 'Polizeihubschrauber-Station',
+    14: 'Bereitstellungsraum'
 };
 
 var carsById = {
@@ -191,7 +192,7 @@ function prepareBuildingAndCarCounter() {
 function countBuildings() {
     var i;
     // alle Zählerstände der Gebäude auf 0 setzen
-    for (i = 0; i <= 14; i++) {
+    for (i = 0; i <= 15; i++) {
         buildingAmount[i] = 0;
     }
 
