@@ -1,3 +1,7 @@
 <FilesMatch ".css">
     Header set Cache-Control "max-age=50000, public, must-revalidate"
 </FilesMatch>
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "https://www.leitstellenspiel.de"
+</IfModule>
