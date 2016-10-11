@@ -201,10 +201,6 @@ function prepareBuildingAndCarCounter() {
             '<input id="scriptCarSearch" class="form-control" placeholder="Suchen" type="text"></div>' +
             '<div class="panel-body" id="scriptCarAmount"></div></div></div></div>');
 
-    $('#scriptBuildingAmount').append('<table class="table table-bordered table-condensed table-striped table-hover">' +
-        '<thead><tr><th>Gebäude</th><th>Anzahl</th></tr></thead>' +
-        '<tbody id="scriptBuildingAmountTable"></tbody></table>');
-
     $('#scriptCarAmount').append('<table class="table table-bordered table-condensed table-striped table-hover">' +
         '<thead><tr><th>Fahrzeugtyp</th><th>Anzahl</th><th>Verfügbar</th></tr></thead>' +
         '<tbody id="scriptCarAmountTable"></tbody></table>');
@@ -526,15 +522,7 @@ if (window.location.pathname === '/') {
 
     // AAO bei Klick umranden
     if (settings.showBorderInAao) {
-        $('.aao').bind('click', function () {
-                if (!settings.nightDesign) {
-                    $(this).css('border', '2px solid black');
-                } else {
-                    $(this).css('border', '2px solid white');
-                }
-            }
-        );
-        $('.vehicle_group').bind('click', function () {
+        $('.aao, .vehicle_group').bind('click', function () {
                 if (!settings.nightDesign) {
                     $(this).css('border', '2px solid black');
                 } else {
