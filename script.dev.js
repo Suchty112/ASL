@@ -179,9 +179,6 @@ function showSettings() {
         ' href="#scriptSettings" aria-expanded="false">Script-Einstellungen</a></li>');
 }
 
-// Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
-var buildingAmount = [], carAmount = [], carAvailableAmount = [];
-
 // Tabellen für die Counter
 function prepareBuildingAndCarCounter() {
     var scriptAmountDiv = $('#scriptAmount');
@@ -189,30 +186,18 @@ function prepareBuildingAndCarCounter() {
         $('.container-fluid:eq(0) > .row:eq(1)').after('<div class="row" id="scriptAmount"></div>');
         scriptAmountDiv = $('#scriptAmount');
     }
-    scriptAmountDiv
-        .empty()
-        .append('<div id="scriptBuildings" class="col-sm-4 overview_outer"><div class="sidebar-nav">' +
-            '<div class="panel panel-default"><div class="panel-heading" id="scriptPanelBuildings">Wachen und Gebäude' +
-            '<input id="scriptBuildingSearch" class="form-control" placeholder="Suchen" type="text"></div>' +
-            '<div class="panel-body" id="scriptBuildingAmount"></div></div></div></div>')
 
-        .append('<div id="scriptCars" class="col-sm-4 overview_outer"><div class="sidebar-nav">' +
-            '<div class="panel panel-default"><div class="panel-heading">Fahrzeuge' +
-            '<input id="scriptCarSearch" class="form-control" placeholder="Suchen" type="text"></div>' +
-            '<div class="panel-body" id="scriptCarAmount"></div></div></div></div>');
+    $('#scriptAmount').load('https://lss.hassels.eu/ASL/buildingAndCarCounter.html', function() {
+        $('#scriptBuildingSearch').bind('keyup', function () {
+            searchInTable('scriptBuildingAmountTable', 'scriptBuildingSearch');
+        });
 
-    $('#scriptCarAmount').append('<table class="table table-bordered table-condensed table-striped table-hover">' +
-        '<thead><tr><th>Fahrzeugtyp</th><th>Anzahl</th><th>Verfügbar</th></tr></thead>' +
-        '<tbody id="scriptCarAmountTable"></tbody></table>');
+        $('#scriptCarSearch').bind('keyup', function () {
+            searchInTable('scriptCarAmountTable', 'scriptCarSearch');
+        });
 
-    $('#scriptBuildingSearch').bind('keyup', function () {
-        searchInTable('scriptBuildingAmountTable', 'scriptBuildingSearch');
+        updateBuildingAndCarCounter();
     });
-
-    $('#scriptCarSearch').bind('keyup', function () {
-        searchInTable('scriptCarAmountTable', 'scriptCarSearch');
-    });
-
 }
 
 function searchInTable(tableID, searchWordID) {
@@ -234,7 +219,7 @@ function updateBuildingAndCarCounter() {
     $('#scriptCarAmountTable').empty();
 
     // für jedes Gebäude, was in der Liste gefunden wird, +1 im Array buildingAmount rechnen
-    buildingAmount = countBuildings();
+    var buildingAmount = countBuildings();
 
     for (i = 0; i < buildingAmount.length; i++) {
         if (buildingAmount[i] > 0) {
@@ -244,8 +229,8 @@ function updateBuildingAndCarCounter() {
     }
 
     var carCounter = countCars();
-    carAmount = carCounter[0];
-    carAvailableAmount = carCounter[1];
+    var carAmount = carCounter[0];
+    var carAvailableAmount = carCounter[1];
     var i;
     for (i = 0; i < carAmount.length; i++) {
         if (carAmount[i] > 0) {
@@ -270,6 +255,8 @@ function countBuildings() {
 
 function countCars() {
     var i;
+    var carAmount = [];
+    var carAvailableAmount = [];
     // alle Zählerstände der Fahrzeuge auf 0 setzen
     for (i = 0; i <= 63; i++) {
         carAmount[i] = 0;
@@ -413,12 +400,19 @@ function changeTabTitleByCall() {
 
 // Einsatzzahlen in den Einsatztabs anzeigen
 function showMissionCounterInTab() {
-    var missions = $('#missions');
-    $('#scriptEmergencyCounter').html(missions.find('.btn-group').find('a:eq(0)').html().replace(')', '').split('(')[1]);
-    $('#scriptTransportCounter').html(missions.find('.btn-group').find('a:eq(1)').html().replace(')', '').split('(')[1]);
-    $('#scriptAllianceCounter').html(missions.find('.btn-group').find('a:eq(2)').html().replace(')', '').split('(')[1]);
-    $('#scriptEventsCounter').html(missions.find('.btn-group').find('a:eq(3)').html().replace(')', '').split('(')[1]);
-    $('#scriptSWCounter').html(missions.find('.btn-group').find('a:eq(4)').html().replace(')', '').split('(')[1]);
+    var missionsBtn = $('#missions').find('.btn-group');
+    var toReplace = [
+        'scriptEmergencyCounter',
+        'scriptTransportCounter',
+        'scriptAllianceCounter',
+        'scriptEventsCounter',
+        'scriptSWCounter'
+    ];
+    for (var key in toReplace) {
+        if (toReplace.hasOwnProperty(key)) {
+            $('#'+ toReplace[key]).html(missionsBtn.find('a:eq('+ key +')').html().replace(')', '').split('(')[1]);
+        }
+    }
 }
 
 // Patienten zählen und anzeigen
@@ -476,7 +470,6 @@ function useEasyHotkeys() {
 // Funktion wird immer angerufen, wenn ein Event von faye komm (bspw. Statuswechsel, neuer Einsatz etc.)
 function fayeEvent() {
     if (settings.carStationCounter) {
-        //prepareBuildingAndCarCounter();
         updateBuildingAndCarCounter();
     }
     if (settings.changeTabTitle) {
