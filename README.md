@@ -2,6 +2,8 @@
 
 ASL ist ein Userscript für Leitstellenspiel.de, welches einige Funktionen einführt und manche Arbeiten erleichtern soll.
 
+[![Code Climate](https://codeclimate.com/github/eaglefsd/ASL/badges/gpa.svg)](https://codeclimate.com/github/eaglefsd/ASL)
+
 ### Installation:
 
 **Firefox**: Du benötigst das Add-On Greasemonkey. Dann klickst Du auf [diesen Link] und bestätigst die Installation. Schon fertig!
