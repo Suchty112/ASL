@@ -232,21 +232,13 @@ function searchInTable(tableID, searchWordID) {
     });
 }
 
-// Gebäude zählen und in Array speichern
+
 function updateBuildingAndCarCounter() {
     $('#scriptBuildingAmountTable').empty();
     $('#scriptCarAmountTable').empty();
 
-    var i;
-    // alle Zählerstände der Gebäude auf 0 setzen
-    for (i = 0; i <= 15; i++) {
-        buildingAmount[i] = 0;
-    }
-
     // für jedes Gebäude, was in der Liste gefunden wird, +1 im Array buildingAmount rechnen
-    $('#building_list').find('.building_list_li').each(function () {
-        buildingAmount[$(this).attr('building_type_id')]++;
-    });
+    buildingAmount = countBuildings();
 
     for (i = 0; i < buildingAmount.length; i++) {
         if (buildingAmount[i] > 0) {
@@ -255,6 +247,33 @@ function updateBuildingAndCarCounter() {
         }
     }
 
+    var carCounter = countCars();
+    carAmount = carCounter[0];
+    carAvailableAmount = carCounter[1];
+    var i;
+    for (i = 0; i < carAmount.length; i++) {
+        if (carAmount[i] > 0) {
+            $('#scriptCarAmountTable').append('<tr><td>' + carsById[i] + '</td><td>' + carAmount[i] + '</td><td>' +
+                carAvailableAmount[i] + '</td></tr>');
+        }
+    }
+}
+
+function countBuildings() {
+    var buildingAmount = [];
+    var i;
+    // alle Zählerstände der Gebäude auf 0 setzen
+    for (i = 0; i <= 15; i++) {
+        buildingAmount[i] = 0;
+    }
+    $('#building_list').find('.building_list_li').each(function () {
+        buildingAmount[$(this).attr('building_type_id')]++;
+    });
+    return buildingAmount;
+}
+
+function countCars() {
+    var i;
     // alle Zählerstände der Fahrzeuge auf 0 setzen
     for (i = 0; i <= 63; i++) {
         carAmount[i] = 0;
@@ -265,17 +284,16 @@ function updateBuildingAndCarCounter() {
     $('.building_list_vehicle_element').each(function () {
         var vehicle_type_id = $(this).find('a').attr('vehicle_type_id');
         carAmount[vehicle_type_id]++;
-        if (parseInt($(this).find('span').html()) === 2) {
+        if (isCarAvailable(parseInt($(this).find('span').html()))) {
             carAvailableAmount[vehicle_type_id]++;
         }
     });
 
-    for (i = 0; i < carAmount.length; i++) {
-        if (carAmount[i] > 0) {
-            $('#scriptCarAmountTable').append('<tr><td>' + carsById[i] + '</td><td>' + carAmount[i] + '</td><td>' +
-                carAvailableAmount[i] + '</td></tr>');
-        }
-    }
+    return [carAmount, carAvailableAmount];
+}
+
+function isCarAvailable(status) {
+    return (status === 1 || status === 2);
 }
 
 // Tabs bei Einsatzliste
