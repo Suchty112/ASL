@@ -84,7 +84,7 @@ var carsById = {
     62: 'AB-Schlauch'
 };
 
-/*var educationNames = {
+var educationNames = {
     'wechsellader': 'Wechsellader',
     'gw_messtechnik': 'GW-Messtechnik',
     'gw_hoehenrettung': 'GW-Höhenrettung',
@@ -102,7 +102,7 @@ var carsById = {
     'seg_elw': 'ELW(SEG)',
     'seg_gw_san': 'GW-SAN',
     'polizeihubschrauber': 'Polizeihubschrauber'
-};*/
+};
 
 var settingNames = {
     'nightDesign': 'Dunkles Design',
@@ -467,6 +467,37 @@ function useEasyHotkeys() {
     });
 }
 
+// Schulstatistiken
+function prepareSchoolStatistics() {
+    $('.personal-select-heading').each(function() {
+        $(this)
+            .trigger('click')
+            .trigger('click')
+            .append('<small id="scriptEducatedPersonal'+ $(this).attr('building_id') +'"></small>');
+    });
+
+    $('.radio').on('change', function() {
+        if ($(this).is(':checked')) {
+            showSchoolStatistics($(this).attr('education_key'));
+        }
+    });
+}
+
+function showSchoolStatistics(educationKey) {
+    var educatedPersonalCount,
+        personalComplete,
+        buildingId;
+    $('.personal-select-heading').each(function() {
+        buildingId = $(this).attr('building_id');
+        educatedPersonalCount = $('input[building_id="'+ buildingId +'"]['+ educationKey +'="true"]').length;
+        personalComplete = $('input[building_id="'+ buildingId +'"]').length;
+        $('#scriptEducatedPersonal'+ buildingId).html('Von '+ personalComplete +' Personen haben '+
+            educatedPersonalCount +' Personen den Lehrgang "'+
+            educationNames[educationKey] +'" (~'+ Math.round((educatedPersonalCount / personalComplete)*100) +'%)');
+    });
+}
+
+
 // Funktion wird immer angerufen, wenn ein Event von faye komm (bspw. Statuswechsel, neuer Einsatz etc.)
 function fayeEvent() {
     if (settings.carStationCounter) {
@@ -528,6 +559,11 @@ if (window.location.pathname === '/') {
     // Leitstelle
     if ($('[data-toggle="tab"]:eq(1)').html() === 'Gebäude') {
         showSettings();
+    }
+
+    // Schule
+    if ($('#education_0').length > 0) {
+        prepareSchoolStatistics();
     }
 }
 
