@@ -284,7 +284,7 @@ function countCars() {
     $('.building_list_vehicle_element').each(function () {
         var vehicle_type_id = $(this).find('a').attr('vehicle_type_id');
         carAmount[vehicle_type_id]++;
-        if (isCarAvailable(parseInt($(this).find('span').html()))) {
+        if (isCarAvailable(parseInt($(this).find('span').html(), 10))) {
             carAvailableAmount[vehicle_type_id]++;
         }
     });
