@@ -1,0 +1,17 @@
+{
+  "bitwise": true,
+  "browser": true,
+  "curly": true,
+  "eqeqeq": true,
+  "esversion": 6,
+  "freeze": true,
+  "undef": true,
+  "unused": true,
+  "globals": [
+    "$",
+    "faye",
+    "alliance_id",
+    "user_id",
+    "console"
+  ]
+}

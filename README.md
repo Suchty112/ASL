@@ -26,7 +26,8 @@ ASL ist ein Userscript für Leitstellenspiel.de, welches einige Funktionen einf�
 
 ### Mitmachen
 Du kannst mir gerne helfen, dieses Projekt weiter zu entwickeln. Dazu eröffnest du bitte einen Pull Request hier bei GitHub.
-Achte bitte darauf, Kommentare zu verwenden und vernünftige Beschreibungen bei den Commits anzugeben.
+Achte bitte darauf, Kommentare zu verwenden und vernünftige Beschreibungen bei den Commits anzugeben. Außerdem sollte dein
+Code einen Lint mit der vorhandenen jshintrc bestehen.
 
 ### Haftungsausschluss
 Die Nutzung des Scripts geschieht auf eigene Gefahr. Ich hafte nicht für eventuell auftretende Schäden oder Ähnliches, die durch die Nutzung dieses Scripts entstanden sind.

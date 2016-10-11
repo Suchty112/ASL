@@ -97,11 +97,11 @@ var educationNames = {
     'thw_raumen': 'Räumen',
     'dekon_p': 'Dekon-P',
     'lna': 'LNA',
-    'orgl':'OrgL',
-    'fwk':'Kran',
-    'seg_elw':'ELW(SEG)',
-    'seg_gw_san':'GW-SAN',
-    'polizeihubschrauber':'Polizeihubschrauber'
+    'orgl': 'OrgL',
+    'fwk': 'Kran',
+    'seg_elw': 'ELW(SEG)',
+    'seg_gw_san': 'GW-SAN',
+    'polizeihubschrauber': 'Polizeihubschrauber'
 };
 
 var settingNames = {
@@ -138,7 +138,7 @@ if (!window.localStorage.getItem('scriptEagleSettings')) {
 function saveSettings() {
     var key;
     for (key in settingNames) {
-        if ($('#script'+ key).is(':checked')) {
+        if ($('#script' + key).is(':checked')) {
             settings[key] = true;
         } else {
             settings[key] = false;
@@ -158,38 +158,85 @@ function showSettings() {
     $('#scriptSettings').append('<div class="form-horizontal" id="scriptSettingsCol"></div>');
 
     for (key in settingNames) {
-        $('#scriptSettingsCol').append('<div class="form-group"><div class="col-sm-3"></div><div class="col-sm-9"><label for="script'+ key +'" class="checkbox"><input type="checkbox" id="script'+ key +'">'+ settingNames[key] +'</label></div></div>');
-        if (settings[key]) {
-            $('#script'+ key).attr('checked', 'checked');
+        if (settingNames.hasOwnProperty(key)) {
+            $('#scriptSettingsCol').append('<div class="form-group"><div class="col-sm-3"></div><div class="col-sm-9">' +
+                '<label for="script' + key + '" class="checkbox"><input type="checkbox" id="script' + key + '">' +
+                settingNames[key] + '</label></div></div>');
+            if (settings[key]) {
+                $('#script' + key).attr('checked', 'checked');
+            }
         }
     }
 
-    $('#scriptSettingsCol').append('<div class="form-group"><div class="col-sm-3"></div><div class="col-sm-9"><button type="button" id="scriptSaveSettingsButton" class="btn btn-success">Einstellungen speichern und Seite neu laden</button></div></div>');
-    $('#scriptSaveSettingsButton').bind('click', function() {
+    $('#scriptSettingsCol').append('<div class="form-group"><div class="col-sm-3"></div><div class="col-sm-9">' +
+        '<button type="button" id="scriptSaveSettingsButton" class="btn btn-success">Einstellungen speichern und Seite' +
+        'neu laden</button></div></div>');
+    $('#scriptSaveSettingsButton').bind('click', function () {
         saveSettings();
     });
 
-    $('#tabs').append('<li role="presentation"><a data-toggle="tab" role="tab" aria-controls="scriptSettings" href="#scriptSettings" aria-expanded="false">Script-Einstellungen</a></li>');
+    $('#tabs').append('<li role="presentation"><a data-toggle="tab" role="tab" aria-controls="scriptSettings"' +
+        ' href="#scriptSettings" aria-expanded="false">Script-Einstellungen</a></li>');
 }
 
 // Arrays, um nachher die (verfügbaren) Fahrzeuge und Wachen zu zählen
 var buildingAmount = [], carAmount = [], carAvailableAmount = [];
 
-// zwei Divs für die Fahrzeuge und Wachen erstellen
+// Tabellen für die Counter
 function prepareBuildingAndCarCounter() {
     var scriptAmountDiv = $('#scriptAmount');
-    if (scriptAmountDiv.length == 0) {
+    if (scriptAmountDiv.length === 0) {
         $('.container-fluid:eq(0) > .row:eq(1)').after('<div class="row" id="scriptAmount"></div>');
         scriptAmountDiv = $('#scriptAmount');
     }
     scriptAmountDiv
         .empty()
-        .append('<div id="scriptBuildings" class="col-sm-4 overview_outer"><div class="sidebar-nav"><div class="panel panel-default"><div class="panel-heading">Wachen und Gebäude</div><div class="panel-body" id="scriptBuildingAmount"></div></div></div></div>')
-        .append('<div id="scriptCars" class="col-sm-4 overview_outer"><div class="sidebar-nav"><div class="panel panel-default"><div class="panel-heading">Fahrzeuge</div><div class="panel-body" id="scriptCarAmount"></div></div></div></div>');
+        .append('<div id="scriptBuildings" class="col-sm-4 overview_outer"><div class="sidebar-nav">' +
+            '<div class="panel panel-default"><div class="panel-heading" id="scriptPanelBuildings">Wachen und Gebäude' +
+            '<input id="scriptBuildingSearch" class="form-control" placeholder="Suchen" type="text"></div>' +
+            '<div class="panel-body" id="scriptBuildingAmount"></div></div></div></div>')
+
+        .append('<div id="scriptCars" class="col-sm-4 overview_outer"><div class="sidebar-nav">' +
+            '<div class="panel panel-default"><div class="panel-heading">Fahrzeuge' +
+            '<input id="scriptCarSearch" class="form-control" placeholder="Suchen" type="text"></div>' +
+            '<div class="panel-body" id="scriptCarAmount"></div></div></div></div>');
+
+    $('#scriptBuildingAmount').append('<table class="table table-bordered table-condensed table-striped table-hover">' +
+        '<thead><tr><th>Gebäude</th><th>Anzahl</th></tr></thead>' +
+        '<tbody id="scriptBuildingAmountTable"></tbody></table>');
+
+    $('#scriptCarAmount').append('<table class="table table-bordered table-condensed table-striped table-hover">' +
+        '<thead><tr><th>Fahrzeugtyp</th><th>Anzahl</th><th>Verfügbar</th></tr></thead>' +
+        '<tbody id="scriptCarAmountTable"></tbody></table>');
+
+    $('#scriptBuildingSearch').bind('keyup', function () {
+        searchInTable('scriptBuildingAmountTable', 'scriptBuildingSearch');
+    });
+
+    $('#scriptCarSearch').bind('keyup', function () {
+        searchInTable('scriptCarAmountTable', 'scriptCarSearch');
+    });
+
+}
+
+function searchInTable(tableID, searchWordID) {
+    var searchWord = new RegExp($('#' + searchWordID).val().toLowerCase());
+    $('#' + tableID).find('tr').each(function () {
+        // zunächst die Zeile wieder sichtbar machen
+        $(this).show();
+
+        // nun die Zelle prüfen, ob der Suchbegriff vorhanden ist
+        if (!$(this).find('td:eq(0)').html().toLowerCase().match(searchWord)) {
+            $(this).hide();
+        }
+    });
 }
 
 // Gebäude zählen und in Array speichern
-function countBuildings() {
+function updateBuildingAndCarCounter() {
+    $('#scriptBuildingAmountTable').empty();
+    $('#scriptCarAmountTable').empty();
+
     var i;
     // alle Zählerstände der Gebäude auf 0 setzen
     for (i = 0; i <= 15; i++) {
@@ -197,109 +244,38 @@ function countBuildings() {
     }
 
     // für jedes Gebäude, was in der Liste gefunden wird, +1 im Array buildingAmount rechnen
-    $('#building_list').find('.building_list_li').each(function() {
+    $('#building_list').find('.building_list_li').each(function () {
         buildingAmount[$(this).attr('building_type_id')]++;
     });
-    return buildingAmount;
-}
 
-// alle Fahrzeuge zählen und in Array speichern
-function countCars() {
-    var i;
+    for (i = 0; i < buildingAmount.length; i++) {
+        if (buildingAmount[i] > 0) {
+            $('#scriptBuildingAmountTable').append('<tr><td>' + buildingsById[i] + '</td><td>' + buildingAmount[i] +
+                '</td></tr>');
+        }
+    }
+
     // alle Zählerstände der Fahrzeuge auf 0 setzen
     for (i = 0; i <= 63; i++) {
         carAmount[i] = 0;
-    }
-
-    // für jedes Fahrzeug, was in der Liste gefunden wird, +1 im Array carAmount rechnen
-    $('.building_list_vehicle_element').each(function() {
-        carAmount[$(this).find('a').attr('vehicle_type_id')]++;
-    });
-    return carAmount;
-}
-
-// alle verfügbaren Fahrzeuge zählen und in Array speichern
-function countAvailableCars() {
-    var i;
-    // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 63; i++) {
         carAvailableAmount[i] = 0;
     }
 
-    // für jedes Fahrzeug, was in der Liste gefunden wird und Status 1 oder 2 ist, +1 im Array carAvailableAmount rechnen
-    $('.building_list_vehicle_element').each(function() {
-        if ($(this).find('span').html() == "2") {
-            carAvailableAmount[$(this).find('a').attr('vehicle_type_id')]++;
+    // für jedes Fahrzeug, was in der Liste gefunden wird, +1 im Array carAmount rechnen
+    $('.building_list_vehicle_element').each(function () {
+        var vehicle_type_id = $(this).find('a').attr('vehicle_type_id');
+        carAmount[vehicle_type_id]++;
+        if (parseInt($(this).find('span').html()) === 2) {
+            carAvailableAmount[vehicle_type_id]++;
         }
     });
-    return carAvailableAmount;
-}
 
-// gezählte Gebäude ausgeben
-function showBuildingAmount() {
-    var buildings = countBuildings(),
-        i;
-
-    $('#scriptBuildingAmount').append('<table class="table table-bordered table-condensed table-striped table-hover"><thead><tr><th>Gebäude</th><th>Anzahl</th></tr></thead><tbody id="scriptBuildingAmountTable"></tbody></table>');
-
-    for (i = 0; i < buildings.length; i++) {
-        if (buildings[i] > 0) {
-            $('#scriptBuildingAmountTable').append('<tr><td>' + buildingsById[i] + '</td><td>' + buildings[i] + '</td></tr>');
+    for (i = 0; i < carAmount.length; i++) {
+        if (carAmount[i] > 0) {
+            $('#scriptCarAmountTable').append('<tr><td>' + carsById[i] + '</td><td>' + carAmount[i] + '</td><td>' +
+                carAvailableAmount[i] + '</td></tr>');
         }
     }
-}
-
-// gezählte Fahrzeuge ausgeben
-function showCarAmount() {
-    var cars = countCars(),
-        carsAva = countAvailableCars(),
-        i;
-
-    $('#scriptCarAmount').append('<table class="table table-bordered table-condensed table-striped table-hover"><thead><tr><th>Fahrzeug</th><th>Anzahl</th><th>Verfügbar</th></tr></thead><tbody id="scriptCarAmountTable"></tbody></table>');
-
-    for (i = 0; i < cars.length; i++) {
-        if (cars[i] > 0) {
-            $('#scriptCarAmountTable').append('<tr><td>' + carsById[i] + '</td><td>' + cars[i] + '</td><td>' + carsAva[i] + '</td></tr>');
-        }
-    }
-}
-
-// Suchleiste für die Gebäudeübersicht erstellen
-function showBuildingSearch() {
-    $('#scriptBuildingAmount').append('<input id="scriptBuildingSearch" class="form-control" placeholder="Suchen" type="text"><br /><br />');
-
-    $('#scriptBuildingSearch').bind('keyup', function() {
-        var searchWord = new RegExp($('#scriptBuildingSearch').val().toLowerCase());
-
-        $('#scriptBuildingAmountTable').find('tr').each(function() {
-            // zunächst die Zeile wieder sichtbar machen
-            $(this).show();
-
-            // nun die Zelle prüfen, ob der Suchbegriff vorhanden ist
-            if (!$(this).find('td:eq(0)').html().toLowerCase().match(searchWord)) {
-                $(this).hide();
-            }
-        });
-    });
-}
-
-// Suchleiste für die Fahrzeugübersicht erstellen
-function showCarSearch() {
-    $('#scriptCarAmount').append('<input id="scriptCarSearch" class="form-control" placeholder="Suchen" type="text"><br /><br />');
-
-    $('#scriptCarSearch').bind('keyup', function() {
-        var searchWord = new RegExp($('#scriptCarSearch').val().toLowerCase());
-
-        $('#scriptCarAmountTable').find('tr').each(function() {
-            // zunächst die Zeile wieder sichtbar machen
-            $(this).show();
-
-            // nun die Zelle prüfen, ob der Suchbegriff vorhanden ist
-            if (!$(this).find('td:eq(0)').html().toLowerCase().match(searchWord)) {
-                $(this).hide();
-            }
-        });
-    });
 }
 
 // Tabs bei Einsatzliste
@@ -330,45 +306,57 @@ function tabsForMissions() {
     missionListDiv.before('<div id="scriptMissionTab"></div>');
     scriptMissionTab = $('#scriptMissionTab');
 
-    missionDiv.find('.panel-heading:eq(0)').append('<div id="scriptMissionMenu"><ul class="nav nav-pills small" style="padding-left:0"><li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li><li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li><li><a href="#scriptAlliances" data-toggle="tab">VE (<span id="scriptAllianceCounter"></span>)</a></li><li><a href="#scriptEvents" data-toggle="tab">EVT (<span id="scriptEventsCounter"></span>)</a></li><li><a href="#scriptSw" data-toggle="tab">SW (<span id="scriptSWCounter"></span>)</a></li></ul></div>');
+    missionDiv.find('.panel-heading:eq(0)').append('<div id="scriptMissionMenu">' +
+        '<ul class="nav nav-pills small" style="padding-left:0">' +
+        '<li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li>' +
+        '<li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li>' +
+        '<li><a href="#scriptAlliances" data-toggle="tab">VE (<span id="scriptAllianceCounter"></span>)</a></li>' +
+        '<li><a href="#scriptEvents" data-toggle="tab">EVT (<span id="scriptEventsCounter"></span>)</a></li>' +
+        '<li><a href="#scriptSw" data-toggle="tab">SW (<span id="scriptSWCounter"></span>)</a></li></ul></div>');
     scriptMissionTab.append('<div class="tab-content" id="scriptTabContent"></div>');
 
     missionList = missionListDiv.html();
     missionListDiv.remove();
 
     scriptTabContent = $('#scriptTabContent');
-    scriptTabContent.append('<div class="tab-pane active" id="scriptEmergencies"><div id="mission_list" style="padding-left:0">' + missionList + '</div></div>');
+    scriptTabContent.append('<div class="tab-pane active" id="scriptEmergencies"><div id="mission_list"' +
+        ' style="padding-left:0">' + missionList + '</div></div>');
 
     missionListKrankentransporteDiv = $('#mission_list_krankentransporte');
     missionListKrankentransporte = missionListKrankentransporteDiv.html();
     missionListKrankentransporteDiv.remove();
-    scriptTabContent.append('<div class="tab-pane" id="scriptTransports"><div id="mission_list_krankentransporte" style="padding-left:0">' + missionListKrankentransporte + '</div></div>');
+    scriptTabContent.append('<div class="tab-pane" id="scriptTransports"><div id="mission_list_krankentransporte"' +
+        ' style="padding-left:0">' + missionListKrankentransporte + '</div></div>');
 
     missionListAllianceDiv = $('#mission_list_alliance');
     missionListAlliance = missionListAllianceDiv.html();
     missionListAllianceDiv.remove();
-    scriptTabContent.append('<div class="tab-pane" id="scriptAlliances"><div id="mission_list_alliance" style="padding-left:0">' + missionListAlliance + '</div></div>');
+    scriptTabContent.append('<div class="tab-pane" id="scriptAlliances"><div id="mission_list_alliance"' +
+        ' style="padding-left:0">' + missionListAlliance + '</div></div>');
 
     missionListEventsDiv = $('#mission_list_alliance_event');
     missionListEvents = missionListEventsDiv.html();
     missionListEventsDiv.remove();
-    scriptTabContent.append('<div class="tab-pane" id="scriptEvents"><div id="mission_list_alliance_event" style="padding-left:0">' + missionListEvents + '</div></div>');
+    scriptTabContent.append('<div class="tab-pane" id="scriptEvents"><div id="mission_list_alliance_event"' +
+        ' style="padding-left:0">' + missionListEvents + '</div></div>');
 
     missionListSicherheitswacheDiv = $('#mission_list_sicherheitswache');
     missionListSicherheitswache = missionListSicherheitswacheDiv.html();
     missionListSicherheitswacheDiv.remove();
-    scriptTabContent.append('<div class="tab-pane" id="scriptSw"><div id="mission_list_sicherheitswache" style="padding-left:0">' + missionListSicherheitswache + '</div></div>');
-    
+    scriptTabContent.append('<div class="tab-pane" id="scriptSw"><div id="mission_list_sicherheitswache"' +
+        ' style="padding-left:0">' + missionListSicherheitswache + '</div></div>');
+
 }
 
 // Suchleiste für Wachenliste
 function showStationSearch() {
-    $('#buildings').find('.panel-heading').append('<input id="scriptStationSearch" class="form-control" placeholder="Suchen" type="text">');
+    $('#buildings').find('.panel-heading').append('<input id="scriptStationSearch" class="form-control"' +
+        ' placeholder="Suchen" type="text">');
 
-    $('#scriptStationSearch').bind('keyup', function() {
+    $('#scriptStationSearch').bind('keyup', function () {
         var searchWord = new RegExp($('#scriptStationSearch').val().toLowerCase());
 
-        $('#building_list').find('.map_position_mover').each(function() {
+        $('#building_list').find('.map_position_mover').each(function () {
             // zunächst die Wache wieder sichtbar machen
             $(this).parent().parent().show();
 
@@ -382,12 +370,13 @@ function showStationSearch() {
 
 // Suchleiste für Verbandschat
 function showChatSearch() {
-    $('#chat_outer').find('.panel-heading').append('<input id="scriptChatSearch" class="form-control" placeholder="Suchen" type="text">');
+    $('#chat_outer').find('.panel-heading').append('<input id="scriptChatSearch" class="form-control"' +
+        ' placeholder="Suchen" type="text">');
 
-    $('#scriptChatSearch').bind('keyup', function() {
+    $('#scriptChatSearch').bind('keyup', function () {
         var searchWord = new RegExp($('#scriptChatSearch').val().toLowerCase());
 
-        $('#mission_chat_messages').find('li').each(function() {
+        $('#mission_chat_messages').find('li').each(function () {
             // zunächst die Wache wieder sichtbar machen
             $(this).show();
 
@@ -424,21 +413,23 @@ function countPatients() {
     var missionList = $('#mission_list'),
         patientsAmount = missionList.find('.patient_progress:visible').length, // Patientenanzahl
         patientsTreatment = missionList.find('.patient_progress.active:visible').length, // Patienten in Behandlung
-        patientsReady = missionList.find('.patient_progress').find('.bar-success').length; // Patienten transportbereit
+        patientsReady = missionList.find('.progress-bar-success').length; // Patienten transportbereit
     $('#scriptPatientsCounter').remove();
-    $('#scriptMissionMenu').append('<small id="scriptPatientsCounter">Pat.: ' + patientsAmount + ' insg., ' + patientsTreatment + ' in Behandlung, ' + patientsReady + ' transpf.</small>');
+    $('#scriptMissionMenu').append('<small id="scriptPatientsCounter">Pat.: ' + patientsAmount + ' insg., ' +
+        patientsTreatment + ' in Behandlung, ' + patientsReady + ' transpf.</small>');
 }
 
 // Fahrzeugtypen statt Name bei Klick auf Button
 function showCarTypesInsteadOfStation() {
     // Button neben dem ersten "Alarmieren"-Button erstellen
-    $('#missionH1').after('<button type="button" id="scriptShowCarTypes" class="btn btn-info btn-mini">Fzg.-Typen anzeigen</button>');
-    $('#scriptShowCarTypes').bind('click', function() {
-            $('td[vehicle_type_id]').each(function() {
+    $('#missionH1').after('<button type="button" id="scriptShowCarTypes" class="btn btn-info btn-mini">' +
+        'Fzg.-Typen anzeigen</button>');
+    $('#scriptShowCarTypes').bind('click', function () {
+            $('td[vehicle_type_id]').each(function () {
                     $(this).parent().find('td:eq(2)').html(carsById[$(this).attr('vehicle_type_id')]);
                 }
             );
-            $('a[vehicle_type_id]').each(function() {
+            $('a[vehicle_type_id]').each(function () {
                     $(this).html(carsById[$(this).attr('vehicle_type_id')]);
                 }
             );
@@ -448,7 +439,7 @@ function showCarTypesInsteadOfStation() {
 
 // Hotkeys ohne Tastenkombination
 function useEasyHotkeys() {
-    $(document).on('keydown', function(e) {
+    $(document).on('keydown', function (e) {
         var keynum,
             hotkey;
         if (window.event) {
@@ -462,40 +453,17 @@ function useEasyHotkeys() {
         if ($('#mission_reply_content').is(':focus')) {
             return;
         }
-        if (hotkey != " " && hotkey != "") {
+        if (hotkey !== " " && hotkey !== "") {
             $('[accesskey=' + hotkey + ']').click();
         }
     });
 }
 
-// Alte Statistiken entfernen und alles vorbereiten
-function prepareStatistics() {
-    $('.form-actions').hide();
-    $('#scriptStatistics').remove();
-    $('#scriptStatisticsLi').remove();
-    $('#tabs').append('<li role="presentation" id="scriptStatisticsLi""><a data-toggle="tab" role="tab" aria-controls="scriptStatistics" href="#scriptStatistics" id="scriptStatisticsTab">Statistiken</a></li>');
-    $('.tab-content').append('<div id="scriptStatistics" class="tab-pane" role="tabpanel"><table class="table table-striped table-bordered table-condensed table-hover" id="scriptStatisticTable"><thead><tr><th>Bezeichnung</th><th>Anzahl</th><th>Anteil an Personal gesamt</th><th>Anteil an Ausbildungen</th></tr></thead><tbody id="scriptStatisticTableBody"></tbody></table></div>');
-}
-
-// Statistik-Tab öffnen
-function goToStatistics() {
-    $('#scriptStatisticsTab').tab('show');
-}
-
-// Statistik-Tabelle erstellen
-function createStatisticTableBody(personalCount, educatedPersonalCount, personal) {
-    $('#scriptStatisticTableBody').append('<tr><td>Personal gesamt</td><td>' + personalCount + '</td><td class="scriptPercent">100</td><td class="scriptPercent">100</td></tr>');
-    $('#scriptStatisticTableBody').append('<tr><td>Ausbildungen</td><td>' + educatedPersonalCount + '</td><td class="scriptPercent">' + Math.round(educatedPersonalCount / personalCount * 100) + '</td><td class="scriptPercent">100</td></tr>');
-}
-
 // Funktion wird immer angerufen, wenn ein Event von faye komm (bspw. Statuswechsel, neuer Einsatz etc.)
 function fayeEvent() {
     if (settings.carStationCounter) {
-        prepareBuildingAndCarCounter();
-        showBuildingSearch();
-        showCarSearch();
-        showBuildingAmount();
-        showCarAmount();
+        //prepareBuildingAndCarCounter();
+        updateBuildingAndCarCounter();
     }
     if (settings.changeTabTitle) {
         changeTabTitleByCall();
@@ -509,11 +477,12 @@ function fayeEvent() {
 }
 
 // Fallunterscheidung für die verschiedenen Seiten
-if (window.location.pathname == '/') {
+if (window.location.pathname === '/') {
     // Startseite
     if (settings.missionTabs) {
         tabsForMissions();
     }
+    prepareBuildingAndCarCounter();
     fayeEvent();
     if (settings.searchFields) {
         showStationSearch();
@@ -521,11 +490,11 @@ if (window.location.pathname == '/') {
     }
 
     // Faye dazu anweisen, die Funktion fayeEvent aufzurufen
-    faye.subscribe('/private-user' + user_id + 'de', function() {
+    faye.subscribe('/private-user' + user_id + 'de', function () {
         fayeEvent();
     });
-    if (alliance_id != undefined) {
-        faye.subscribe('/private-alliance-' + alliance_id + 'de', function() {
+    if (alliance_id !== undefined) {
+        faye.subscribe('/private-alliance-' + alliance_id + 'de', function () {
             fayeEvent();
         });
     }
@@ -539,7 +508,7 @@ if (window.location.pathname == '/') {
 
     // AAO bei Klick umranden
     if (settings.showBorderInAao) {
-        $('.aao').bind('click', function() {
+        $('.aao').bind('click', function () {
                 if (!settings.nightDesign) {
                     $(this).css('border', '2px solid black');
                 } else {
@@ -547,7 +516,7 @@ if (window.location.pathname == '/') {
                 }
             }
         );
-        $('.vehicle_group').bind('click', function() {
+        $('.vehicle_group').bind('click', function () {
                 if (!settings.nightDesign) {
                     $(this).css('border', '2px solid black');
                 } else {
@@ -557,13 +526,8 @@ if (window.location.pathname == '/') {
         );
     }
 } else if (window.location.pathname.match(/buildings\//)) {
-    //Schule
-    /*if (settings.schoolStatistic) {
-
-    }*/
-
     // Leitstelle
-    if ($('[data-toggle="tab"]:eq(1)').html() == 'Gebäude') {
+    if ($('[data-toggle="tab"]:eq(1)').html() === 'Gebäude') {
         showSettings();
     }
 }
