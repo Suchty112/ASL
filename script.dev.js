@@ -84,7 +84,7 @@ var carsById = {
     62: 'AB-Schlauch'
 };
 
-var educationNames = {
+/*var educationNames = {
     'wechsellader': 'Wechsellader',
     'gw_messtechnik': 'GW-Messtechnik',
     'gw_hoehenrettung': 'GW-Höhenrettung',
@@ -102,7 +102,7 @@ var educationNames = {
     'seg_elw': 'ELW(SEG)',
     'seg_gw_san': 'GW-SAN',
     'polizeihubschrauber': 'Polizeihubschrauber'
-};
+};*/
 
 var settingNames = {
     'nightDesign': 'Dunkles Design',

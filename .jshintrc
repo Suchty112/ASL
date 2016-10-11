@@ -7,11 +7,11 @@
   "freeze": true,
   "undef": true,
   "unused": true,
+  "jquery": true,
+  "devel": true,
   "globals": [
-    "$",
     "faye",
     "alliance_id",
-    "user_id",
-    "console"
+    "user_id"
   ]
 }
