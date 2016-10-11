@@ -413,12 +413,19 @@ function changeTabTitleByCall() {
 
 // Einsatzzahlen in den Einsatztabs anzeigen
 function showMissionCounterInTab() {
-    var missions = $('#missions');
-    $('#scriptEmergencyCounter').html(missions.find('.btn-group').find('a:eq(0)').html().replace(')', '').split('(')[1]);
-    $('#scriptTransportCounter').html(missions.find('.btn-group').find('a:eq(1)').html().replace(')', '').split('(')[1]);
-    $('#scriptAllianceCounter').html(missions.find('.btn-group').find('a:eq(2)').html().replace(')', '').split('(')[1]);
-    $('#scriptEventsCounter').html(missions.find('.btn-group').find('a:eq(3)').html().replace(')', '').split('(')[1]);
-    $('#scriptSWCounter').html(missions.find('.btn-group').find('a:eq(4)').html().replace(')', '').split('(')[1]);
+    var missionsBtn = $('#missions').find('.btn-group');
+    var toReplace = [
+        'scriptEmergencyCounter',
+        'scriptTransportCounter',
+        'scriptAllianceCounter',
+        'scriptEventsCounter',
+        'scriptSWCounter'
+    ];
+    for (var key in toReplace) {
+        if (toReplace.hasOwnProperty(key)) {
+            $('#'+ toReplace[key]).html(missionsBtn.find('a:eq('+ key +')').html().replace(')', '').split('(')[1]);
+        }
+    }
 }
 
 // Patienten zählen und anzeigen
