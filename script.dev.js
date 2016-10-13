@@ -514,15 +514,9 @@ function fayeEvent() {
     }
 }
 
-// Piwik für Nutzungsstatistiken
-function piwik() {
-    $('body').append('<img src="//piwik.eagledev.de/piwik.php?idsite=1" style="border:0;" alt="" />');
-}
-
 // Fallunterscheidung für die verschiedenen Seiten
 if (window.location.pathname === '/') {
     // Startseite
-    piwik();
     if (settings.missionTabs) {
         tabsForMissions();
     }
