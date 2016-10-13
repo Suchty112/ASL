@@ -430,7 +430,7 @@ function countPatients() {
 // Fahrzeugtypen statt Name bei Klick auf Button
 function showCarTypesInsteadOfStation() {
     // Button neben dem ersten "Alarmieren"-Button erstellen
-    $('#missionH1').after('<button type="button" id="scriptShowCarTypes" class="btn btn-info btn-mini">' +
+    $('#mission_finish_now_btn').after('<button type="button" id="scriptShowCarTypes" class="btn btn-info btn-sm">' +
         'Fzg.-Typen anzeigen</button>');
     $('#scriptShowCarTypes').bind('click', function () {
             $('td[vehicle_type_id]').each(function () {
@@ -514,9 +514,15 @@ function fayeEvent() {
     }
 }
 
+// Piwik für Nutzungsstatistiken
+function piwik() {
+    $('body').append('<img src="//piwik.eagledev.de/piwik.php?idsite=1" style="border:0;" alt="" />');
+}
+
 // Fallunterscheidung für die verschiedenen Seiten
 if (window.location.pathname === '/') {
     // Startseite
+    piwik();
     if (settings.missionTabs) {
         tabsForMissions();
     }
