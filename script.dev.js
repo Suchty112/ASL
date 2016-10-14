@@ -430,8 +430,17 @@ function countPatients() {
 // Fahrzeugtypen statt Name bei Klick auf Button
 function showCarTypesInsteadOfStation() {
     // Button neben dem ersten "Alarmieren"-Button erstellen
-    $('#mission_finish_now_btn').after('<button type="button" id="scriptShowCarTypes" class="btn btn-info btn-sm">' +
+    var divId = "";
+    var extraClass = "";
+    if ($('#mission_finish_now_btn').length > 0) {
+        divId = 'mission_finish_now_btn';
+    } else {
+        divId = 'mission_next_mission_btn';
+        extraClass = " navbar-btn";
+    }
+    $('#'+ divId).after('<button type="button" id="scriptShowCarTypes" class="btn btn-info btn-sm'+ extraClass +'">' +
         'Fzg.-Typen anzeigen</button>');
+
     $('#scriptShowCarTypes').bind('click', function () {
             $('td[vehicle_type_id]').each(function () {
                     $(this).parent().find('td:eq(2)').html(carsById[$(this).attr('vehicle_type_id')]);
