@@ -506,6 +506,24 @@ function showSchoolStatistics(educationKey) {
     });
 }
 
+function showAaoBorderAfterClick() {
+    $('.aao, .vehicle_group').bind('click', function () {
+            if (!settings.nightDesign) {
+                $(this).css('border', '2px solid black');
+            } else {
+                $(this).css('border', '2px solid white');
+            }
+        }
+    );
+
+    $('#scriptShowCarTypes').after('<button type="button" id="scriptRemoveAaoBorder" class="btn btn-info btn-sm">' +
+        'AAO-Rahmen zurücksetzen</button>');
+    $('#scriptRemoveAaoBorder').bind('click', function() {
+        $('.aao, .vehicle_group').css('border', 'none');
+    });
+
+}
+
 
 // Funktion wird immer angerufen, wenn ein Event von faye komm (bspw. Statuswechsel, neuer Einsatz etc.)
 function fayeEvent() {
@@ -555,14 +573,7 @@ if (window.location.pathname === '/') {
 
     // AAO bei Klick umranden
     if (settings.showBorderInAao) {
-        $('.aao, .vehicle_group').bind('click', function () {
-                if (!settings.nightDesign) {
-                    $(this).css('border', '2px solid black');
-                } else {
-                    $(this).css('border', '2px solid white');
-                }
-            }
-        );
+        showAaoBorderAfterClick();
     }
 } else if (window.location.pathname.match(/buildings\//)) {
     // Leitstelle
