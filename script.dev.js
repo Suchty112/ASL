@@ -113,7 +113,8 @@ var settingNames = {
     //'schoolStatistic': 'Statistiken in der Schule',
     'showPatients': 'Patientenübersicht in der Einsatzliste zeigen',
     'changeTabTitle': 'Tab-Titel bei neuem Sprechwunsch ändern',
-    'showBorderInAao': 'AAO-Button nach Betätigen mit Rahmen versehen'
+    'showBorderInAao': 'AAO-Button nach Betätigen mit Rahmen versehen',
+    'useHotkeysForMissions': 'Hotkeys für Einsatznavigation'
 };
 
 // Einstellungen auslesen
@@ -128,7 +129,8 @@ if (!window.localStorage.getItem('scriptEagleSettings')) {
         'schoolStatistic': true,
         'showPatients': true,
         'changeTabTitle': true,
-        'showBorderInAao': true
+        'showBorderInAao': true,
+        'useHotkeysForMissions': true
     };
 } else {
     settings = JSON.parse(window.localStorage.getItem('scriptEagleSettings'));
@@ -492,6 +494,7 @@ function prepareSchoolStatistics() {
     });
 }
 
+// Anzeige der bereits ausgebildeten Personen pro Wache
 function showSchoolStatistics(educationKey) {
     var educatedPersonalCount,
         personalComplete,
@@ -506,6 +509,7 @@ function showSchoolStatistics(educationKey) {
     });
 }
 
+// AAO kriegt nach dem Auswählen einen Rahmen
 function showAaoBorderAfterClick() {
     $('.aao, .vehicle_group').bind('click', function () {
             if (!settings.nightDesign) {
@@ -518,12 +522,37 @@ function showAaoBorderAfterClick() {
 
 }
 
+// Fügt einen Button ein, um alle Fahrzeuge wieder abzuwählen
 function uncheckAllCars() {
     $('#scriptShowCarTypes').after('<button type="button" id="scriptUncheckCars" class="btn btn-info btn-sm">' +
         'Fahrzeuge abwählen</button>');
 
     $('#scriptUncheckCars').bind('click', function() {
         $('.vehicle_checkbox').prop('checked', false);
+    });
+}
+
+function useHotkeys() {
+    $(document).bind('keyup', function(e) {
+        // e = event || window.event;
+        e.preventDefault();
+        console.log(e.keyCode);
+        switch (e.keyCode) {
+            // linker Pfeil
+            case 37:
+                window.location.href = $('#mission_previous_mission_btn').attr('href');
+                break;
+            // rechter Pfeil
+            case 39:
+                window.location.href = $('#mission_next_mission_btn').attr('href');
+                break;
+            // Enter
+            case 13:
+                $('#mission-form').submit();
+                break;
+            default:
+                break;
+        }
     });
 }
 
@@ -569,8 +598,12 @@ if (window.location.pathname === '/') {
     $('#btn-alliance-new-mission').css('margin-bottom', '0');
 } else if (window.location.pathname.match(/missions\//)) {
     // Einsätze
+    showCarTypesInsteadOfStation();
+    if (settings.useHotkeysForMissions) {
+        useHotkeys();
+    }
+
     if (settings.simpleHotkeys) {
-        showCarTypesInsteadOfStation();
         useEasyHotkeys();
     }
 
