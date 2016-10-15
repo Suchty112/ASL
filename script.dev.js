@@ -516,12 +516,15 @@ function showAaoBorderAfterClick() {
         }
     );
 
-    $('#scriptShowCarTypes').after('<button type="button" id="scriptRemoveAaoBorder" class="btn btn-info btn-sm">' +
-        'AAO-Rahmen zurücksetzen</button>');
-    $('#scriptRemoveAaoBorder').bind('click', function() {
-        $('.aao, .vehicle_group').css('border', 'none');
-    });
+}
 
+function uncheckAllCars() {
+    $('#scriptShowCarTypes').after('<button type="button" id="scriptUncheckCars" class="btn btn-info btn-sm">' +
+        'Fahrzeuge abwählen</button>');
+
+    $('#scriptUncheckCars').bind('click', function() {
+        $('.vehicle_checkbox').prop('checked', false);
+    });
 }
 
 
@@ -575,6 +578,8 @@ if (window.location.pathname === '/') {
     if (settings.showBorderInAao) {
         showAaoBorderAfterClick();
     }
+
+    uncheckAllCars();
 } else if (window.location.pathname.match(/buildings\//)) {
     // Leitstelle
     if ($('[data-toggle="tab"]:eq(1)').html() === 'Gebäude') {
