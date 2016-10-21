@@ -503,8 +503,8 @@ function showSchoolStatistics(educationKey) {
         buildingId = $(this).attr('building_id');
         educatedPersonalCount = $('input[building_id="'+ buildingId +'"]['+ educationKey +'="true"]').length;
         personalComplete = $('input[building_id="'+ buildingId +'"]').length;
-        $('#scriptEducatedPersonal'+ buildingId).html('Von '+ personalComplete +' Personen haben '+
-            educatedPersonalCount +' Personen den Lehrgang "'+
+        $('#scriptEducatedPersonal'+ buildingId).html(educatedPersonalCount +' von '+ personalComplete +' Personen haben '+
+            'den Lehrgang "'+
             educationNames[educationKey] +'" (~'+ Math.round((educatedPersonalCount / personalComplete)*100) +'%)');
     });
 }
