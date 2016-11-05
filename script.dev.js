@@ -550,6 +550,10 @@ function useHotkeys() {
             case 13:
                 $('#mission-form').submit();
                 break;
+            // Escape
+            case 27:
+                lightboxClose();
+                break;
             default:
                 break;
         }
