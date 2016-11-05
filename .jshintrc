@@ -12,6 +12,7 @@
   "globals": [
     "faye",
     "alliance_id",
-    "user_id"
+    "user_id",
+    "lightboxClose"
   ]
 }
