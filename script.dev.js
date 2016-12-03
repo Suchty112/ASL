@@ -15,7 +15,8 @@ var buildingsById = {
     11: 'Bereitschaftspolizei',
     12: 'Schnelleinsatzgruppe (SEG)',
     13: 'Polizeihubschrauber-Station',
-    14: 'Bereitstellungsraum'
+    14: 'Bereitstellungsraum',
+    15: 'Wasserrettung'
 };
 
 var carsById = {
@@ -81,7 +82,16 @@ var carsById = {
     59: 'ELW 1 (SEG)',
     60: 'GW-SAN',
     61: 'Polizeihubschrauber',
-    62: 'AB-Schlauch'
+    62: 'AB-Schlauch',
+    63: 'GW-Taucher',
+    64: 'GW-Wasserrettung',
+    65: 'LKW 7 Lkr 19 tm',
+    66: 'Anh MzB',
+    67: 'Anh SchlB',
+    68: 'Anh MzAB',
+    69: 'Tauchkraftwagen',
+    70: 'MZB',
+    71: 'AB-MZB'
 };
 
 var educationNames = {
@@ -101,7 +111,9 @@ var educationNames = {
     'fwk': 'Kran',
     'seg_elw': 'ELW(SEG)',
     'seg_gw_san': 'GW-SAN',
-    'polizeihubschrauber': 'Polizeihubschrauber'
+    'polizeihubschrauber': 'Polizeihubschrauber',
+    'gw_wasserrettung': 'GW-Wasserrettung',
+    'gw_taucher':'GW-Taucher'
 };
 
 var settingNames = {
@@ -246,7 +258,7 @@ function countBuildings() {
     var buildingAmount = [];
     var i;
     // alle Zählerstände der Gebäude auf 0 setzen
-    for (i = 0; i <= 15; i++) {
+    for (i = 0; i <= 16; i++) {
         buildingAmount[i] = 0;
     }
     $('#building_list').find('.building_list_li').each(function () {
@@ -260,7 +272,7 @@ function countCars() {
     var carAmount = [];
     var carAvailableAmount = [];
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 63; i++) {
+    for (i = 0; i <= 72; i++) {
         carAmount[i] = 0;
         carAvailableAmount[i] = 0;
     }
