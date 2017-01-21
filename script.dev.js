@@ -631,7 +631,7 @@ if (window.location.pathname === '/') {
     uncheckAllCars();
 } else if (window.location.pathname.match(/buildings\//)) {
     // Leitstelle
-    if ($('[data-toggle="tab"]:eq(1)').html() === 'Gebäude') {
+    if ($('[data-toggle="tab"]:eq(1)').html() === 'Protokoll') {
         showSettings();
     }
 
