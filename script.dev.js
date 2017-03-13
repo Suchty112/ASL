@@ -491,7 +491,7 @@ function useEasyHotkeys() {
 }
 
 // Schulstatistiken
-function prepareSchoolStatistics() {
+/*function prepareSchoolStatistics() {
     $('.personal-select-heading').each(function() {
         $(this)
             .trigger('click')
@@ -504,10 +504,10 @@ function prepareSchoolStatistics() {
             showSchoolStatistics($(this).attr('education_key'));
         }
     });
-}
+}*/
 
 // Anzeige der bereits ausgebildeten Personen pro Wache
-function showSchoolStatistics(educationKey) {
+/*function showSchoolStatistics(educationKey) {
     var educatedPersonalCount,
         personalComplete,
         buildingId;
@@ -519,7 +519,7 @@ function showSchoolStatistics(educationKey) {
             'den Lehrgang "'+
             educationNames[educationKey] +'" (~'+ Math.round((educatedPersonalCount / personalComplete)*100) +'%)');
     });
-}
+}*/
 
 // AAO kriegt nach dem Auswählen einen Rahmen
 function showAaoBorderAfterClick() {
@@ -636,9 +636,9 @@ if (window.location.pathname === '/') {
     }
 
     // Schule
-    if ($('#education_0').length > 0) {
+    /*if ($('#education_0').length > 0) {
         prepareSchoolStatistics();
-    }
+    }*/
 }
 
 // Nacht-Design
