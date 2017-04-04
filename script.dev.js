@@ -184,7 +184,7 @@ function showSettings() {
 
     $('#scriptSettingsCol').append('<div class="form-group"><div class="col-sm-3"></div><div class="col-sm-9">' +
         '<button type="button" id="scriptSaveSettingsButton" class="btn btn-success">Einstellungen speichern und Seite' +
-        'neu laden</button></div></div>');
+        ' neu laden</button></div></div>');
     $('#scriptSaveSettingsButton').bind('click', function () {
         saveSettings();
     });
@@ -197,7 +197,7 @@ function showSettings() {
 function prepareBuildingAndCarCounter() {
     var scriptAmountDiv = $('#scriptAmount');
     if (scriptAmountDiv.length === 0) {
-        $('.container-fluid:eq(0) > .row:eq(1)').after('<div class="row" id="scriptAmount"></div>');
+        $('.container-fluid:eq(1) > .row:eq(0)').after('<div class="row" id="scriptAmount"></div>');
         scriptAmountDiv = $('#scriptAmount');
     }
 
@@ -314,14 +314,14 @@ function tabsForMissions() {
     missionDiv.find('.btn-group:eq(0)').hide();
 
     // Größe anpassen
-    $('#missions-panel-body').css('height', '450px');
+    $('#missions_outer').css('height', '550px');
 
     // Tabs erstellen
     missionListDiv = $('#mission_list');
     missionListDiv.before('<div id="scriptMissionTab"></div>');
     scriptMissionTab = $('#scriptMissionTab');
 
-    missionDiv.find('.panel-heading:eq(0)').append('<div id="scriptMissionMenu">' +
+    missionDiv.find('strong:eq(0)').append('<div id="scriptMissionMenu">' +
         '<ul class="nav nav-pills small" style="padding-left:0">' +
         '<li class="active"><a href="#scriptEmergencies" data-toggle="tab">NF (<span id="scriptEmergencyCounter"></span>)</a></li>' +
         '<li><a href="#scriptTransports" data-toggle="tab">KTP (<span id="scriptTransportCounter"></span>)</a></li>' +
@@ -491,7 +491,7 @@ function useEasyHotkeys() {
 }
 
 // Schulstatistiken
-function prepareSchoolStatistics() {
+/*function prepareSchoolStatistics() {
     $('.personal-select-heading').each(function() {
         $(this)
             .trigger('click')
@@ -504,10 +504,10 @@ function prepareSchoolStatistics() {
             showSchoolStatistics($(this).attr('education_key'));
         }
     });
-}
+}*/
 
 // Anzeige der bereits ausgebildeten Personen pro Wache
-function showSchoolStatistics(educationKey) {
+/*function showSchoolStatistics(educationKey) {
     var educatedPersonalCount,
         personalComplete,
         buildingId;
@@ -519,7 +519,7 @@ function showSchoolStatistics(educationKey) {
             'den Lehrgang "'+
             educationNames[educationKey] +'" (~'+ Math.round((educatedPersonalCount / personalComplete)*100) +'%)');
     });
-}
+}*/
 
 // AAO kriegt nach dem Auswählen einen Rahmen
 function showAaoBorderAfterClick() {
@@ -636,9 +636,9 @@ if (window.location.pathname === '/') {
     }
 
     // Schule
-    if ($('#education_0').length > 0) {
+    /*if ($('#education_0').length > 0) {
         prepareSchoolStatistics();
-    }
+    }*/
 }
 
 // Nacht-Design
