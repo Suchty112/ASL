@@ -314,7 +314,7 @@ function tabsForMissions() {
     missionDiv.find('.btn-group:eq(0)').hide();
 
     // Größe anpassen
-    $('#missions_outer').css('height', '550px');
+    $('#missions-panel-body').css('height', '480px');
 
     // Tabs erstellen
     missionListDiv = $('#mission_list');
