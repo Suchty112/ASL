@@ -481,7 +481,7 @@ function useEasyHotkeys() {
 
         hotkey = String.fromCharCode(keynum).trim();
 
-        if ($('#mission_reply_content').is(':focus')) {
+        if ($('input[type="text"]').is(':focus')) {
             return;
         }
         if (hotkey !== " " && hotkey !== "") {
