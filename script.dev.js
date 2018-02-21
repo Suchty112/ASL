@@ -91,7 +91,13 @@ var carsById = {
     68: 'Anh MzAB',
     69: 'Tauchkraftwagen',
     70: 'MZB',
-    71: 'AB-MZB'
+    71: 'AB-MZB',
+    72: 'WaWe 10',
+    73: 'GRTW',
+    74: 'NAW',
+    75: 'FLF',
+    76: 'Rettungstreppe',
+    77: 'AB-Gefahrgut'
 };
 
 var educationNames = {
