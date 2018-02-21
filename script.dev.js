@@ -281,7 +281,7 @@ function countCars() {
     var carAmount = [];
     var carAvailableAmount = [];
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 72; i++) {
+    for (i = 0; i <= 78; i++) {
         carAmount[i] = 0;
         carAvailableAmount[i] = 0;
     }
