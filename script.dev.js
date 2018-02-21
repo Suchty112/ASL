@@ -119,7 +119,10 @@ var educationNames = {
     'seg_gw_san': 'GW-SAN',
     'polizeihubschrauber': 'Polizeihubschrauber',
     'gw_wasserrettung': 'GW-Wasserrettung',
-    'gw_taucher':'GW-Taucher'
+    'gw_taucher':'GW-Taucher',
+    'arff':'Flugfeldlöschfahrzeug',
+    'rettungstreppe':'Rettungstreppe',
+    'police_wasserwerfer':'Wasserwerfer'
 };
 
 var settingNames = {
