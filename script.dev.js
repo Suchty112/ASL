@@ -142,7 +142,7 @@ var settingNames = {
 var settings;
 if (!window.localStorage.getItem('scriptEagleSettings')) {
     settings = {
-        'nightDesign': true,
+        'nightDesign': false,
         'searchFields': true,
         'missionTabs': true,
         'carStationCounter': true,
