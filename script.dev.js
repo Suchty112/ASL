@@ -621,7 +621,7 @@ if (window.location.pathname === '/') {
         });
     }
     $('#btn-alliance-new-mission').css('margin-bottom', '0');
-    } else if (window.location.pathname.match(/missions\//)) {
+} else if (window.location.pathname.match(/missions\//)) {
     // Einsätze
     showCarTypesInsteadOfStation();
     if (settings.useHotkeysForMissions) {
@@ -638,7 +638,7 @@ if (window.location.pathname === '/') {
     }
 
     uncheckAllCars();
-    } else if (window.location.pathname.match(/buildings\//)) {
+} else if (window.location.pathname.match(/buildings\//)) {
     // Leitstelle
     if ($('[data-toggle="tab"]:eq(1)').html() === 'Protokoll') {
         showSettings();
