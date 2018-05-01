@@ -16,7 +16,9 @@ var buildingsById = {
     12: 'Schnelleinsatzgruppe (SEG)',
     13: 'Polizeihubschrauber-Station',
     14: 'Bereitstellungsraum',
-    15: 'Wasserrettung'
+    15: 'Wasserrettung',
+    16: 'Verbandszelle',
+    17: 'Polizei-Sondereinheiten'
 };
 
 var carsById = {
@@ -97,7 +99,12 @@ var carsById = {
     74: 'NAW',
     75: 'FLF',
     76: 'Rettungstreppe',
-    77: 'AB-Gefahrgut'
+    77: 'AB-Gefahrgut',
+    78: 'AB-Einsatzleitung',
+    79: 'SEK - ZF',
+    80: 'SEK - MTF',
+    81: 'MEK - ZF',
+    82: 'MEK - MTF'
 };
 
 var educationNames = {
@@ -267,7 +274,7 @@ function countBuildings() {
     var buildingAmount = [];
     var i;
     // alle Zählerstände der Gebäude auf 0 setzen
-    for (i = 0; i <= 16; i++) {
+    for (i = 0; i <= 18; i++) {
         buildingAmount[i] = 0;
     }
     $('#building_list').find('.building_list_li').each(function () {
@@ -281,7 +288,7 @@ function countCars() {
     var carAmount = [];
     var carAvailableAmount = [];
     // alle Zählerstände der Fahrzeuge auf 0 setzen
-    for (i = 0; i <= 78; i++) {
+    for (i = 0; i <= 83; i++) {
         carAmount[i] = 0;
         carAvailableAmount[i] = 0;
     }
