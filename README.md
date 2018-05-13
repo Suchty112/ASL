@@ -2,7 +2,6 @@
 
 ASL ist ein Userscript für Leitstellenspiel.de, welches einige Funktionen einführt und manche Arbeiten erleichtern soll.
 
-[![Code Climate](https://codeclimate.com/github/eaglefsd/ASL/badges/gpa.svg)](https://codeclimate.com/github/eaglefsd/ASL)
 
 ### Installation:
 
@@ -37,7 +36,7 @@ Code einen Lint mit der vorhandenen jshintrc bestehen.
 Die Nutzung des Scripts geschieht auf eigene Gefahr. Ich hafte nicht für eventuell auftretende Schäden oder Ähnliches, die durch die Nutzung dieses Scripts entstanden sind.
 Die SHPlay GmbH ist in keinster Weise für den Inhalt des Scripts verantwortlich. Das Script ist losgelöst von SHPlay und Leitstellenspiel.de
 
-[diesen Link]:https://github.com/eaglefsd/ASL/raw/master/script.user.js
+[diesen Link]:https://github.com/Suchty112/ASL/raw/master/script.user.js
 [Greasemonkey]:https://addons.mozilla.org/de/firefox/addon/greasemonkey/
 [Tampermonkey]:https://tampermonkey.net/
 [Violent Monkey]:https://addons.opera.com/de/extensions/details/violent-monkey/
