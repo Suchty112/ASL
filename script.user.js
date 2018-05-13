@@ -3,11 +3,11 @@
 // @namespace   Leitstellenspiel
 // @include     http*://www.leitstellenspiel.de/*
 // @version     dev
-// @author      Eagle
+// @author      Eagle/Sanni
 // @grant       none
 // ==/UserScript==
 
 var scriptElement = document.createElement("script");
 scriptElement.type = "text/javascript";
-scriptElement.src = "https://lss.hassels.eu/ASL/script.dev.js";
+scriptElement.src = "https://raw.githubusercontent.com/Suchty112/ASL/master/script.dev.js";
 document.body.appendChild(scriptElement);
