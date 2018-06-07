@@ -1,7 +1,7 @@
 ﻿// ==UserScript==
 // @name        Allgemeines Script für Leitstellenspiel NEU
 // @namespace   Leitstellenspiel
-// @include     http*://www.leitstellenspiel.de/*
+// @include     https://www.leitstellenspiel.de/*
 // @version     dev
 // @author      Eagle/Sanni
 // @grant       none
@@ -9,5 +9,5 @@
 
 var scriptElement = document.createElement("script");
 scriptElement.type = "text/javascript";
-scriptElement.src = "https://raw.githubusercontent.com/Suchty112/ASL/master/script.dev.js";
+scriptElement.src = "https://asl.lss-m.de/script.dev.js";
 document.body.appendChild(scriptElement);
