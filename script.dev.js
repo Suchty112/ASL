@@ -217,7 +217,7 @@ function prepareBuildingAndCarCounter() {
         scriptAmountDiv = $('#scriptAmount');
     }
 
-    $('#scriptAmount').load('https://raw.githubusercontent.com/Suchty112/ASL/master/buildingAndCarCounter.html', function() {
+    $('#scriptAmount').load('https://asl.lss-m.de/buildingAndCarCounter.html', function() {
         $('#scriptBuildingSearch').bind('keyup', function () {
             searchInTable('scriptBuildingAmountTable', 'scriptBuildingSearch');
         });
@@ -661,6 +661,6 @@ if (window.location.pathname === '/') {
 if (settings.nightDesign) {
     var styleElement = document.createElement("link");
     styleElement.rel = "stylesheet";
-    styleElement.href = "https://raw.githubusercontent.com/Suchty112/ASL/master/theme.min.css";
+    styleElement.href = "https://asl.lss-m.de/theme.min.css";
     document.getElementsByTagName('head')[0].appendChild(styleElement);
 }
