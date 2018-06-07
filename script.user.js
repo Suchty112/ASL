@@ -1,5 +1,5 @@
 ﻿// ==UserScript==
-// @name        Allgemeines Script für Leitstellenspiel NEU
+// @name        Allgemeines Script für Leitstellenspiel
 // @namespace   Leitstellenspiel
 // @include     https://www.leitstellenspiel.de/*
 // @version     dev
